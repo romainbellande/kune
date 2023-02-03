@@ -1,0 +1,7 @@
+version: '3'
+
+tasks:
+  start:
+    desc: start client server
+    cmds:
+      - pnpm dev

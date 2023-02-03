@@ -1,0 +1,16 @@
+version: '3'
+
+dotenv: ['.env']
+
+includes:
+  client:
+    taskfile: ./packages/client
+    dir: ./packages/client
+  server:
+    taskfile: ./packages/server
+    dir: ./packages/server
+tasks:
+  author:
+    desc: display author
+    cmds:
+      - echo 'Romain BELLANDE'
