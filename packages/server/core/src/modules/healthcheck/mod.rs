@@ -1,8 +1,4 @@
-use axum::{
-    response::{Result},
-    routing::get,
-    Json, Router,
-};
+use axum::{response::Result, routing::get, Json, Router};
 use axum_macros::debug_handler;
 
 use serde::{Deserialize, Serialize};

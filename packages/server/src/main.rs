@@ -1,4 +1,6 @@
+use core;
+
 #[tokio::main]
 async fn main() {
-    server::start().await;
+    core::start().await;
 }

@@ -5,7 +5,7 @@ export const config: Auth0ClientOptions = {
   domain: PUBLIC_OAUTH_DOMAIN,
   clientId: PUBLIC_OAUTH_CLIENT_ID,
   authorizationParams: {
-    redirect_uri: 'http://localhost:5137'
+    redirect_uri: 'http://localhost:5137',
   },
   useRefreshTokens: true,
 };

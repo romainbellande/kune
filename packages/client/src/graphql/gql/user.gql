@@ -1,0 +1,7 @@
+query GetUserByExternalId($externalId: String!) {
+  getUserByExternalId(externalId: $externalId) {
+    id,
+    externalId,
+    name,
+  }
+}

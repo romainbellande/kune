@@ -20,6 +20,9 @@ impl RustEnv {
 pub struct Config {
     pub rust_env: RustEnv,
     pub port: u16,
+    pub database_url: String,
+    pub jwt_key_modulus: String,
+    pub jwt_key_exponent: String,
 }
 
 impl Config {
@@ -30,6 +33,9 @@ impl Config {
                 .unwrap_or_else(|_| "3000".to_string())
                 .parse::<u16>()
                 .expect("PORT is not valid"),
+            database_url: env::var("DATABASE_URL").expect("DATABASE_URL must be set"),
+            jwt_key_modulus: env::var("JWT_KEY_MODULUS").expect("JWT_KEY_MODULUS must be set"),
+            jwt_key_exponent: env::var("JWT_KEY_EXPONENT").expect("JWT_KEY_EXPONENT must be set")
         }
     }
 

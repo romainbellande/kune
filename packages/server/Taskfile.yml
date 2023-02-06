@@ -4,10 +4,16 @@ env:
   RUST_ENV: development
 
 tasks:
+  install:deps:
+    desc: install dependencies
+    cmds:
+      - cargo install systemfd
+      - cargo install cargo-watch
+
   start:
     desc: start server
     cmds:
-      - cargo watch -x run
+      - systemfd --no-pid -s http::8083 -- cargo watch -x run
 
   lint:fix:
     desc: lint server and fix if possible

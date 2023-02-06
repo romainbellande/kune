@@ -1,6 +1,7 @@
 use axum::Server;
 use std::net::SocketAddr;
 
+mod graphql;
 mod state;
 pub use state::State;
 
@@ -9,12 +10,19 @@ mod ws;
 use router::router;
 
 mod config;
+mod errors;
 use config::CONFIG;
 
+mod db;
 mod modules;
+use db::Database;
 
 pub async fn start() {
-    let app = router();
+    let conn = Database::new(CONFIG.database_url.clone())
+        .get_connection()
+        .await;
+
+    let app = router(conn);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], CONFIG.port));
 

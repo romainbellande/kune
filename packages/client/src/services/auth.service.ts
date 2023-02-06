@@ -1,7 +1,6 @@
 import { Auth0Client, createAuth0Client, User } from '@auth0/auth0-spa-js';
 import { user, isAuthenticated, token  } from '../store';
 import { config } from '../auth.config';
-import { goto } from '$app/navigation';
 
 function createClient(): Promise<Auth0Client> {
   return createAuth0Client(config);
@@ -20,19 +19,21 @@ function logout(client: Auth0Client) {
   return client.logout();
 }
 
-async function onMount(url: URL) {
+async function init(url: URL) {
     const client = await createClient();
 
     if (urlIsRedirectCallback(url)) {
       await handleRedirect(client);
     }
+
       const isAuth = await client.isAuthenticated();
-      console.log('isAuth :>> ', isAuth);
+
       if (!isAuth) {
         await loginWithRedirect(client);
       } else {
         await setUser(client);
         const newToken =await client.getTokenSilently();
+        console.log('newToken :>> ', newToken);
         token.set(newToken);
       }
 }
@@ -55,8 +56,6 @@ const urlIsRedirectCallback = (url: URL): boolean => {
 async function handleRedirect(client: Auth0Client) {
     await client.handleRedirectCallback();
     window.history.replaceState({}, document.title, "/");
-    // goto('/', { replaceState: true });
-
 }
 
 export default {
@@ -64,5 +63,5 @@ export default {
   loginWithRedirect,
   handleRedirect,
   logout,
-  onMount,
+  init,
 };
