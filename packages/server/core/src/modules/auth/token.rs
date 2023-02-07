@@ -1,24 +1,68 @@
 use axum::{headers::{Authorization, authorization::{Bearer, Credentials}, HeaderMapExt}, extract::{TypedHeader, FromRequestParts}};
 use http::HeaderMap;
-use async_graphql::Error;
-use jsonwebtoken::{decode, Validation};
+use async_graphql::{Error, Result};
+use jsonwebtoken::{decode, Validation, decode_header, jwk::{AlgorithmParameters::RSA, Jwk, RSAKeyParameters}, DecodingKey};
 use serde::{Serialize, Deserialize};
-use super::keys::KEYS;
+use super::keys::get_jwk;
 use crate::errors::AppError;
+use crate::CONFIG;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct AccessToken {
   pub sub: String,
-  pub exp: String,
-  pub aud: String,
+  pub exp: usize,
+  pub iat: usize,
+  pub aud: Vec<String>,
   pub iss: String,
+  pub azp: String,
+  pub scope: String,
 }
 
 impl AccessToken {
-  pub fn from_string(value: String) -> Result<Self, Error> {
-    decode::<Self>(&value, &KEYS.decoding, &Validation::default())
+  pub async fn from_string(value: String) -> Result<Self> {
+    let kid = Self::get_kid(value.clone())?;
+
+    let jwk = get_jwk(kid).await?;
+
+    let rsa = Self::extract_rsa(&jwk)?;
+
+    let decoding_key = DecodingKey::from_rsa_components(&rsa.n, &rsa.e).unwrap();
+
+    decode::<Self>(&value, &decoding_key, &Self::validation(&jwk))
       .map(|value| value.claims)
-      .map_err(|_| AppError::InvalidToken.into_graphql_error())
+      .map_err(|err| {
+        AppError::InvalidToken(err.to_string()).into_graphql_error()
+      })
+  }
+
+  fn validation(jwk: &Jwk) -> Validation {
+    let mut validation = Validation::new(jwk.common.algorithm.unwrap());
+
+    validation.leeway = 5;
+
+    validation.set_audience(&["http://localhost:3000"]);
+
+    let issuer = format!("https://{}/", CONFIG.auth0_domain.clone());
+
+    validation.set_issuer(&[issuer]);
+
+    validation
+  }
+
+  fn get_kid(value: String) -> Result<String> {
+    let header = decode_header(&value)?;
+
+    match header.kid {
+      Some(kid) => Ok(kid),
+      None => Err(AppError::JwtNoKid.into_graphql_error())
+    }
+  }
+
+  fn extract_rsa(jwk: &Jwk) -> Result<&RSAKeyParameters> {
+    match &jwk.algorithm {
+      RSA(rsa) => Ok(rsa),
+      _ => Err(AppError::JwkInvalidRsaAlgorithm.into_graphql_error())
+    }
   }
 }
 

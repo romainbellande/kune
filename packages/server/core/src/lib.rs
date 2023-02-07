@@ -16,11 +16,16 @@ use config::CONFIG;
 mod db;
 mod modules;
 use db::Database;
+use migration::{Migrator, MigratorTrait};
 
 pub async fn start() {
     let conn = Database::new(CONFIG.database_url.clone())
         .get_connection()
         .await;
+
+    Migrator::up(&conn, None)
+        .await
+        .expect("could not migrate database");
 
     let app = router(conn);
 

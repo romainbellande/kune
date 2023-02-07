@@ -1,0 +1,7 @@
+mutation CreateUserIfNotExists($externalId: String!, $dto: CreateUserDto!) {
+  createUserIfNotExists(externalId: $externalId, dto: $dto) {
+    id,
+    externalId,
+    name
+  }
+}

@@ -10,9 +10,8 @@ impl AuthGuard {
         Self
     }
 
-    pub fn check_access_token(access_token_string: String) -> Result<(), Error> {
-        AccessToken::from_string(access_token_string)
-            .map_err(|err| err.extend())?;
+    pub async fn check_access_token(access_token_string: String) -> Result<(), Error> {
+        AccessToken::from_string(access_token_string).await?;
 
         Ok(())
     }
@@ -25,6 +24,6 @@ impl Guard for AuthGuard {
           AppError::MissingAccessToken.into_graphql_error()
         })?;
 
-        Self::check_access_token(access_token.to_string())
+        Self::check_access_token(access_token.to_string()).await
     }
 }
