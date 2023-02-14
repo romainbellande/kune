@@ -1,4 +1,4 @@
-use entity::user::CreateUserDto;
+use crate::graphql::types::user::CreateUserDto;
 use once_cell::sync::Lazy;
 use std::env;
 
@@ -28,18 +28,20 @@ pub struct Config {
 
 impl Config {
     pub fn new() -> Self {
+        let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+
         Self {
             rust_env: RustEnv::new(env::var("RUST_ENV").expect("RUST_ENV must be set")),
             port: env::var("PORT")
                 .unwrap_or_else(|_| "3000".to_string())
                 .parse::<u16>()
                 .expect("PORT is not valid"),
-            database_url: env::var("DATABASE_URL").expect("DATABASE_URL must be set"),
+            database_url,
             auth0_domain: env::var("AUTH0_DOMAIN").expect("AUTH0_DOMAIN must be set"),
             super_admin: CreateUserDto {
                 name: env::var("SUPER_ADMIN_NAME").expect("SUPER_ADMIN_NAME must be set"),
                 external_id: env::var("SUPER_ADMIN_EXTERNAL_ID").expect("SUPER_ADMIN_EXTERNAL_ID must be set"),
-            }
+            },
         }
     }
 

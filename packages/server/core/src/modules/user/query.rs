@@ -1,8 +1,8 @@
 use async_graphql::{Context, Object, Result};
-use entity::user;
-use sea_orm::DatabaseConnection;
 use crate::modules::auth::guard::AuthGuard;
 use super::service;
+use crate::prisma::PrismaClient;
+use crate::graphql::types::user::User;
 
 #[derive(Default)]
 pub struct Query;
@@ -14,8 +14,8 @@ impl Query {
         &self,
         ctx: &Context<'_>,
         external_id: String,
-    ) -> Result<user::Model> {
-        let conn = ctx.data::<DatabaseConnection>().unwrap();
-        service::get_user_by_external_id(conn, external_id).await
+    ) -> Result<User> {
+        let prisma_client = ctx.data::<PrismaClient>().unwrap();
+        service::get_user_by_external_id(prisma_client, external_id).await.map(|data| data.into())
     }
 }
