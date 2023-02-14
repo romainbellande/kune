@@ -16,7 +16,7 @@ type Model {
 
 type MutationRoot {
   create(dto: CreateUserDto!): Model!
-  createUserIfNotExists(dto: CreateUserDto!, externalId: String!): Model!
+  createUserIfNotExists(dto: CreateUserDto!): Model!
 }
 
 type QueryRoot {

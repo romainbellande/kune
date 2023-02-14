@@ -15,7 +15,18 @@ pub async fn create(conn: &DatabaseConnection, dto: CreateUserDto) -> Result<use
     let user_model = user::Model::from(dto);
     let user_active_model: user::ActiveModel = user_model.clone().into();
 
-    user_active_model.save(conn).await
+    user_active_model.insert(conn).await
       .map_err(|err| AppError::UserCreationError(err.to_string()).into_graphql_error())
       .map(|_| user_model)
+}
+
+pub async fn create_if_not_exists(conn: &DatabaseConnection, dto: CreateUserDto) -> Result<user::Model> {
+  let result = get_user_by_external_id(conn, dto.external_id.clone()).await;
+
+  match result {
+    Ok(user) => Ok(user),
+    Err(_) =>  {
+      create(conn, dto).await
+    }
+  }
 }

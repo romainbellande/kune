@@ -15,16 +15,8 @@ impl Mutation {
     service::create(conn, dto).await
   }
 
-  async fn create_user_if_not_exists(&self, ctx: &Context<'_>, external_id: String, dto: CreateUserDto) -> Result<user::Model> {
+  async fn create_user_if_not_exists(&self, ctx: &Context<'_>, dto: CreateUserDto) -> Result<user::Model> {
     let conn = ctx.data::<DatabaseConnection>().unwrap();
-
-    let result = service::get_user_by_external_id(conn, external_id).await;
-
-    match result {
-      Ok(user) => Ok(user),
-      Err(_) =>  {
-        service::create(conn, dto).await
-      }
-    }
+    service::create_if_not_exists(conn, dto).await
   }
 }

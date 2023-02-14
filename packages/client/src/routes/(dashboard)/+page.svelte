@@ -1,17 +1,21 @@
 <script lang="ts">
-  import { isAuthenticated } from '@app/store';
+  import { isAuthenticated, user } from '@app/store';
+  import { get } from 'svelte/store';
   import './page.css';
   import type { PageData } from './$houdini';
   import { GetUserByExternalIdStore } from '$houdini';
-
 
   isAuthenticated.subscribe(async (value) => {
     if (value) {
       const GetUserByExternalId = new GetUserByExternalIdStore();
       console.log("test")
-      const result = await GetUserByExternalId.fetch({ variables: { externalId: 'foo' } });
+      const externalId = get(user)?.sub;
 
-      console.log('result :>> ', result);
+      if (externalId) {
+        const result = await GetUserByExternalId.fetch({ variables: { externalId } });
+
+        console.log('result :>> ', result);
+      }
     }
   })
 

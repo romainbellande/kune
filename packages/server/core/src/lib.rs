@@ -27,6 +27,9 @@ pub async fn start() {
         .await
         .expect("could not migrate database");
 
+    modules::user::inject_super_admin(&conn).await
+        .expect("an error occurred while injecting super admin");
+
     let app = router(conn);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], CONFIG.port));
