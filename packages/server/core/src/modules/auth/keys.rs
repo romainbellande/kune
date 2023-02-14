@@ -1,22 +1,11 @@
-use crate::config::CONFIG;
-use jsonwebtoken::DecodingKey;
-use once_cell::sync::Lazy;
+use jsonwebtoken::jwk::Jwk;
+use super::jwks::fetch_jwks;
+use async_graphql::Result;
+use crate::errors::AppError;
 
-pub struct Keys {
-    pub decoding: DecodingKey,
+pub async fn get_jwk(kid: String) -> Result<Jwk> {
+    let jwks = fetch_jwks().await?;
+
+    jwks.find(&kid)
+        .ok_or(AppError::MissingJwk.into_graphql_error()).cloned()
 }
-
-impl Keys {
-    fn new() -> Self {
-        Self {
-            decoding: DecodingKey::from_rsa_components(
-               &CONFIG.jwt_key_modulus.clone(),
-               &CONFIG.jwt_key_exponent.clone(),
-            ).unwrap(),
-        }
-    }
-}
-
-pub static KEYS: Lazy<Keys> = Lazy::new(|| {
-    Keys::new()
-});

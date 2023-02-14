@@ -9,11 +9,17 @@ tasks:
     cmds:
       - cargo install systemfd
       - cargo install cargo-watch
+      - cargo install sea-orm-cli
 
   start:
     desc: start server
     cmds:
-      - systemfd --no-pid -s http::8083 -- cargo watch -x run
+      - cargo run
+    sources:
+      - ./src/**/*.rs
+      - ./core/**/*.rs
+      - ./entity/**/*.rs
+      - ./migration/**/*.rs
 
   lint:fix:
     desc: lint server and fix if possible

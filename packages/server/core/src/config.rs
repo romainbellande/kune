@@ -1,3 +1,4 @@
+use entity::user::CreateUserDto;
 use once_cell::sync::Lazy;
 use std::env;
 
@@ -21,8 +22,8 @@ pub struct Config {
     pub rust_env: RustEnv,
     pub port: u16,
     pub database_url: String,
-    pub jwt_key_modulus: String,
-    pub jwt_key_exponent: String,
+    pub auth0_domain: String,
+    pub super_admin: CreateUserDto,
 }
 
 impl Config {
@@ -34,8 +35,11 @@ impl Config {
                 .parse::<u16>()
                 .expect("PORT is not valid"),
             database_url: env::var("DATABASE_URL").expect("DATABASE_URL must be set"),
-            jwt_key_modulus: env::var("JWT_KEY_MODULUS").expect("JWT_KEY_MODULUS must be set"),
-            jwt_key_exponent: env::var("JWT_KEY_EXPONENT").expect("JWT_KEY_EXPONENT must be set")
+            auth0_domain: env::var("AUTH0_DOMAIN").expect("AUTH0_DOMAIN must be set"),
+            super_admin: CreateUserDto {
+                name: env::var("SUPER_ADMIN_NAME").expect("SUPER_ADMIN_NAME must be set"),
+                external_id: env::var("SUPER_ADMIN_EXTERNAL_ID").expect("SUPER_ADMIN_EXTERNAL_ID must be set"),
+            }
         }
     }
 

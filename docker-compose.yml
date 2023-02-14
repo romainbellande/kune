@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: pguser
       POSTGRES_PASSWORD: pgpass
-      POSTGRES_DB: rust_todo_wasm
+      POSTGRES_DB: kune
     ports:
       - 5450:5432
     volumes:

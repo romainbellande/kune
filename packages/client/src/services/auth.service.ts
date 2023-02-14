@@ -35,6 +35,8 @@ async function init(url: URL) {
         const newToken =await client.getTokenSilently();
         console.log('newToken :>> ', newToken);
         token.set(newToken);
+        isAuthenticated.set(true);
+        console.log('ping');
       }
 }
 
@@ -44,7 +46,6 @@ const setUser = async (client: Auth0Client) => {
 
     if (currentUser) {
       user.set(currentUser);
-      isAuthenticated.set(true);
     }
 }
 

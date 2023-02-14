@@ -11,11 +11,22 @@ pub enum AppError {
   #[error("error during user creation: {0}")]
   UserCreationError(String),
 
+  // jwt token
+
   #[error("missing access token")]
   MissingAccessToken,
 
-  #[error("invalid token")]
-  InvalidToken,
+  #[error("invalid token: {0}")]
+  InvalidToken(String),
+
+  #[error("missing jwk in jwks")]
+  MissingJwk,
+
+  #[error("token doesn't have a `kid` header field")]
+  JwtNoKid,
+
+  #[error("jwk must have a RSA algorithm")]
+  JwkInvalidRsaAlgorithm,
 }
 
 impl AppError {
@@ -24,7 +35,10 @@ impl AppError {
       Self::UserNotFound(_) => "USER_NOT_FOUND",
       Self::UserCreationError(_) => "USER_CREATION_ERROR",
       Self::MissingAccessToken => "MISSING_ACCESS_TOKEN",
-      Self::InvalidToken => "INVALID_TOKEN"
+      Self::InvalidToken(_) => "INVALID_TOKEN",
+      Self::MissingJwk => "MISSING_JWK",
+      Self::JwtNoKid => "JWT_NO_KID",
+      Self::JwkInvalidRsaAlgorithm => "JWK_INVALID_RSA_ALGORITHM",
     };
 
     str.to_string()

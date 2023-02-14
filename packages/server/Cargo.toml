@@ -13,7 +13,8 @@ tokio = "1.25.0"
 members = [
   "./",
   "./entity",
-  "./core"
+  "./core",
+  "./migration"
 ]
 
 default-members = ["./"]
