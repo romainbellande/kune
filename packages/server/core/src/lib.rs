@@ -13,24 +13,25 @@ mod config;
 mod errors;
 use config::CONFIG;
 
-mod db;
 mod modules;
-use db::Database;
-use migration::{Migrator, MigratorTrait};
+
+use crate::prisma::PrismaClient;
+mod prisma;
 
 pub async fn start() {
-    let conn = Database::new(CONFIG.database_url.clone())
-        .get_connection()
-        .await;
+    let prisma_client = PrismaClient::_builder().with_url(CONFIG.database_url.clone()).build().await.expect("can't instantiate prisma client");
 
-    Migrator::up(&conn, None)
-        .await
+    prisma_client
+        ._db_push()
+        .accept_data_loss() // --accept-data-loss in CLI
+        .force_reset()
+        .await      // --force-reset in CLI
         .expect("could not migrate database");
 
-    modules::user::inject_super_admin(&conn).await
+    modules::user::inject_super_admin(&prisma_client).await
         .expect("an error occurred while injecting super admin");
 
-    let app = router(conn);
+    let app = router(prisma_client);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], CONFIG.port));
 

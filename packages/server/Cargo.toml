@@ -14,7 +14,8 @@ members = [
   "./",
   "./entity",
   "./core",
-  "./migration"
+  "./migration",
+  "./prisma-cli"
 ]
 
 default-members = ["./"]

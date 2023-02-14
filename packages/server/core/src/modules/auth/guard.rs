@@ -1,6 +1,6 @@
 use super::token::{AccessTokenRaw, AccessToken};
 use crate::errors::AppError;
-use async_graphql::{Context, Error, ErrorExtensions, Guard, Result};
+use async_graphql::{Context, Error, Guard, Result};
 use axum::async_trait;
 
 pub struct AuthGuard;

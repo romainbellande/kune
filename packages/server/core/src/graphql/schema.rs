@@ -1,6 +1,5 @@
 use async_graphql::{EmptySubscription, MergedObject, Schema};
-use sea_orm::DatabaseConnection;
-use crate::modules::user;
+use crate::{modules::user, prisma::PrismaClient};
 
 #[derive(MergedObject, Default)]
 pub struct QueryRoot(user::Query);
@@ -10,12 +9,12 @@ pub struct MutationRoot(user::Mutation);
 
 pub type AppSchema = Schema<QueryRoot, MutationRoot, EmptySubscription>;
 
-pub fn get_schema(conn: DatabaseConnection) -> Schema<QueryRoot, MutationRoot, EmptySubscription> {
+pub fn get_schema(prisma_client: PrismaClient) -> Schema<QueryRoot, MutationRoot, EmptySubscription> {
     Schema::build(
         QueryRoot::default(),
         MutationRoot::default(),
         EmptySubscription,
     )
-    .data(conn)
+    .data(prisma_client)
     .finish()
 }

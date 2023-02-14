@@ -1,6 +1,6 @@
-use axum::{headers::{Authorization, authorization::{Bearer, Credentials}, HeaderMapExt}, extract::{TypedHeader, FromRequestParts}};
+use axum::{headers::{Authorization, authorization::Bearer, HeaderMapExt}};
 use http::HeaderMap;
-use async_graphql::{Error, Result};
+use async_graphql::Result;
 use jsonwebtoken::{decode, Validation, decode_header, jwk::{AlgorithmParameters::RSA, Jwk, RSAKeyParameters}, DecodingKey};
 use serde::{Serialize, Deserialize};
 use super::keys::get_jwk;
