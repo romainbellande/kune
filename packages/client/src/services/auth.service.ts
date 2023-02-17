@@ -1,6 +1,6 @@
 import { Auth0Client, createAuth0Client, User } from '@auth0/auth0-spa-js';
-import { user, isAuthenticated, token  } from '../store';
-import { config } from '../auth.config';
+import { auth0User, isAuthenticated, token  } from '@app/store';
+import { config } from '@app/auth.config';
 
 function createClient(): Promise<Auth0Client> {
   return createAuth0Client(config);
@@ -33,19 +33,16 @@ async function init(url: URL) {
       } else {
         await setUser(client);
         const newToken =await client.getTokenSilently();
-        console.log('newToken :>> ', newToken);
         token.set(newToken);
         isAuthenticated.set(true);
-        console.log('ping');
       }
 }
 
 const setUser = async (client: Auth0Client) => {
     const currentUser: User | undefined = await client.getUser();
-    console.log('currentUser :>> ', currentUser);
 
     if (currentUser) {
-      user.set(currentUser);
+      auth0User.set(currentUser);
     }
 }
 

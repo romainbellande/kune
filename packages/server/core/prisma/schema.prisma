@@ -12,6 +12,16 @@ generator client {
 
 model User {
     id          String  @id @default(cuid())
-    name String
+    name        String
     external_id String @unique
+    owned_groups Group[]
+    groups Group[] @relation("UserGroup")
+}
+
+model Group {
+    id          String  @id @default(cuid())
+    name        String
+    owner       User @relation(fields: [owner_id], references: [id])
+    owner_id    String
+    users       User[] @relation("UserGroup")
 }

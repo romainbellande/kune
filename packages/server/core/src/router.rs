@@ -7,10 +7,10 @@ use axum::Extension;
 use axum::{routing::get, Router};
 use tower_http::cors::CorsLayer;
 
-pub fn router(prisma_client: PrismaClient) -> Router {
+pub fn router(db: PrismaClient) -> Router {
     Router::new()
         .nest("/health", healthcheck::router())
-        .nest("/graphql", graphql::router(prisma_client))
+        .nest("/graphql", graphql::router(db))
         .route("/ws", get(ws::handler))
         .layer(Extension(State))
         .layer(CorsLayer::permissive())

@@ -1,21 +1,23 @@
-use async_graphql::{Context, Object, Result};
-use crate::modules::auth::guard::AuthGuard;
 use super::service;
-use crate::prisma::PrismaClient;
 use crate::graphql::types::user::User;
+use crate::modules::auth::guard::AuthGuard;
+use crate::prisma::PrismaClient;
+use async_graphql::{Context, Object, Result};
 
 #[derive(Default)]
-pub struct Query;
+pub struct UserQuery;
 
 #[Object]
-impl Query {
+impl UserQuery {
     #[graphql(guard = "AuthGuard::new()")]
     pub async fn get_user_by_external_id(
         &self,
         ctx: &Context<'_>,
         external_id: String,
     ) -> Result<User> {
-        let prisma_client = ctx.data::<PrismaClient>().unwrap();
-        service::get_user_by_external_id(prisma_client, external_id).await.map(|data| data.into())
+        let db = ctx.data::<PrismaClient>().unwrap();
+        service::get_user_by_external_id(db, external_id)
+            .await
+            .map(|data| data.into())
     }
 }

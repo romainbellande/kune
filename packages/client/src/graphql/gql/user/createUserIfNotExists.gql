@@ -1,5 +1,5 @@
-mutation CreateUserIfNotExists($externalId: String!, $dto: CreateUserDto!) {
-  createUserIfNotExists(externalId: $externalId, dto: $dto) {
+mutation CreateUserIfNotExists($dto: CreateUserDto!) {
+  createUserIfNotExists(dto: $dto) {
     id,
     externalId,
     name

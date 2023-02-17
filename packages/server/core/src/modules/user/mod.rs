@@ -1,9 +1,9 @@
 mod query;
-pub use query::Query;
+pub use query::UserQuery;
 
 mod mutation;
-pub use mutation::Mutation;
+pub use mutation::UserMutation;
 
-mod service;
 mod inject_super_admin;
+mod service;
 pub use inject_super_admin::inject_super_admin;

@@ -1,8 +1,6 @@
 use async_graphql::{Error as GraphQLError, ErrorExtensions};
 use std::fmt::{Display, Formatter, Result as FmtResult};
 
-use super::AppError;
-
 #[derive(Debug, Clone)]
 pub struct WebError {
     pub code: String,
@@ -17,9 +15,9 @@ impl Display for WebError {
 }
 
 impl ErrorExtensions for WebError {
-  fn extend(&self) -> GraphQLError {
-      GraphQLError::new(self.message.clone()).extend_with(|_, e| {
-          e.set("code", self.code.clone());
-      })
-  }
+    fn extend(&self) -> GraphQLError {
+        GraphQLError::new(self.message.clone()).extend_with(|_, e| {
+            e.set("code", self.code.clone());
+        })
+    }
 }

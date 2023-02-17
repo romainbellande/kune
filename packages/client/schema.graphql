@@ -3,13 +3,27 @@ schema {
   mutation: MutationRoot
 }
 
+input CreateGroupDto {
+  name: String!
+  ownerId: String!
+}
+
 input CreateUserDto {
   externalId: String!
   name: String!
 }
 
+type Group {
+  id: String!
+  name: String!
+  owner: User!
+  ownerId: String!
+  users: [User!]!
+}
+
 type MutationRoot {
-  create(dto: CreateUserDto!): User!
+  createGroup(dto: CreateGroupDto!): Group!
+  createUser(dto: CreateUserDto!): User!
   createUserIfNotExists(dto: CreateUserDto!): User!
 }
 
@@ -19,6 +33,7 @@ type QueryRoot {
 
 type User {
   externalId: String!
+  groups: [Group!]!
   id: String!
   name: String!
 }

@@ -36,3 +36,9 @@ tasks:
     cmds:
       - task: format
       - task: lint:fix
+
+  prisma:gen:
+    desc: generate prisma client
+    dir: ./core
+    cmds:
+      - cargo prisma generate

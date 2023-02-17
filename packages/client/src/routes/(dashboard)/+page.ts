@@ -1,9 +1,9 @@
-import authService from '../../services/auth.service';
-import type { PageLoad } from './$types';
+// import authService from '../../services/auth.service';
+// import type { PageLoad } from './$types';
 
-export const load = (({ url }) => {
-  authService.init(url);
-}) satisfies PageLoad;
+// export const load = (({ url }) => {
+//   authService.init(url);
+// }) satisfies PageLoad;
 
-export const ssr = false;
+// export const ssr = false;
 

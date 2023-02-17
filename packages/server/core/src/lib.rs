@@ -19,19 +19,23 @@ use crate::prisma::PrismaClient;
 mod prisma;
 
 pub async fn start() {
-    let prisma_client = PrismaClient::_builder().with_url(CONFIG.database_url.clone()).build().await.expect("can't instantiate prisma client");
+    let db = PrismaClient::_builder()
+        .with_url(CONFIG.database_url.clone())
+        .build()
+        .await
+        .expect("can't instantiate prisma client");
 
-    prisma_client
-        ._db_push()
+    db._db_push()
         .accept_data_loss() // --accept-data-loss in CLI
         .force_reset()
-        .await      // --force-reset in CLI
+        .await // --force-reset in CLI
         .expect("could not migrate database");
 
-    modules::user::inject_super_admin(&prisma_client).await
+    modules::user::inject_super_admin(&db)
+        .await
         .expect("an error occurred while injecting super admin");
 
-    let app = router(prisma_client);
+    let app = router(db);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], CONFIG.port));
 

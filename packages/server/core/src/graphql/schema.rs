@@ -1,20 +1,20 @@
+use crate::{modules::{user::{UserMutation, UserQuery}, group::GroupMutation}, prisma::PrismaClient};
 use async_graphql::{EmptySubscription, MergedObject, Schema};
-use crate::{modules::user, prisma::PrismaClient};
 
 #[derive(MergedObject, Default)]
-pub struct QueryRoot(user::Query);
+pub struct QueryRoot(UserQuery);
 
 #[derive(MergedObject, Default)]
-pub struct MutationRoot(user::Mutation);
+pub struct MutationRoot(UserMutation, GroupMutation);
 
 pub type AppSchema = Schema<QueryRoot, MutationRoot, EmptySubscription>;
 
-pub fn get_schema(prisma_client: PrismaClient) -> Schema<QueryRoot, MutationRoot, EmptySubscription> {
+pub fn get_schema(db: PrismaClient) -> Schema<QueryRoot, MutationRoot, EmptySubscription> {
     Schema::build(
         QueryRoot::default(),
         MutationRoot::default(),
         EmptySubscription,
     )
-    .data(prisma_client)
+    .data(db)
     .finish()
 }

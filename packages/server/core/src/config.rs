@@ -40,7 +40,8 @@ impl Config {
             auth0_domain: env::var("AUTH0_DOMAIN").expect("AUTH0_DOMAIN must be set"),
             super_admin: CreateUserDto {
                 name: env::var("SUPER_ADMIN_NAME").expect("SUPER_ADMIN_NAME must be set"),
-                external_id: env::var("SUPER_ADMIN_EXTERNAL_ID").expect("SUPER_ADMIN_EXTERNAL_ID must be set"),
+                external_id: env::var("SUPER_ADMIN_EXTERNAL_ID")
+                    .expect("SUPER_ADMIN_EXTERNAL_ID must be set"),
             },
         }
     }

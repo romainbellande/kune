@@ -1,5 +1,6 @@
 mod schema;
 pub mod types;
+use crate::modules::auth::token::AccessTokenRaw;
 use crate::{config::CONFIG, prisma::PrismaClient};
 use async_graphql::http::GraphiQLSource;
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse};
@@ -10,7 +11,6 @@ use axum::{
     Extension, Router,
 };
 use schema::{get_schema, AppSchema};
-use crate::modules::auth::token::AccessTokenRaw;
 
 async fn graphql_handler(
     Extension(schema): Extension<AppSchema>,
@@ -32,8 +32,8 @@ async fn graphiql() -> impl IntoResponse {
     Html(GraphiQLSource::build().endpoint(&endpoint).finish())
 }
 
-pub fn router(prisma_client: PrismaClient) -> Router {
-    let schema = get_schema(prisma_client);
+pub fn router(db: PrismaClient) -> Router {
+    let schema = get_schema(db);
 
     Router::new()
         .route("/", get(graphiql).post(graphql_handler))
