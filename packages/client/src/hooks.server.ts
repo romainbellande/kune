@@ -4,8 +4,9 @@ import { token } from './store';
 import { get } from 'svelte/store';
 
 export const handle: Handle = async ({ event, resolve }) => {
+
     // get the user information however you want
-    console.log('pong')
+    console.log('pong pong', event.cookies.get(''));
     const tokenValue = get(token);
 
     // set the session information for this event

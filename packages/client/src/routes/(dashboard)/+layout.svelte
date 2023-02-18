@@ -1,8 +1,20 @@
 <script lang="ts">
   import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
+  import { page } from '$app/stores';
+  import { onMount } from 'svelte';
+
   import Sidebar from "@app/components/sidebar.svelte";
   import Navbar from "@app/components/navbar.svelte";
-  import { page } from '$app/stores';
+  import authService from '@app/services/auth.service';
+	import { get } from 'svelte/store';
+
+
+
+  onMount(async () => {
+    const url = get(page).url;
+    console.log('url :>> ', url);
+    await authService.init(url);
+  });
 
   $: title = $page.data.title;
 

@@ -27,9 +27,7 @@ async fn graphql_handler(
 }
 
 async fn graphiql() -> impl IntoResponse {
-    let endpoint = format!("http://0.0.0.0:{}/graphql", CONFIG.port);
-
-    Html(GraphiQLSource::build().endpoint(&endpoint).finish())
+    Html(GraphiQLSource::build().endpoint(&"/graphql").finish())
 }
 
 pub fn router(db: PrismaClient) -> Router {

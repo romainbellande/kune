@@ -23,19 +23,20 @@ async function init(url: URL) {
     const client = await createClient();
 
     if (urlIsRedirectCallback(url)) {
+      console.log('redirect');
       await handleRedirect(client);
     }
 
-      const isAuth = await client.isAuthenticated();
+    const isAuth = await client.isAuthenticated();
 
-      if (!isAuth) {
-        await loginWithRedirect(client);
-      } else {
-        await setUser(client);
-        const newToken =await client.getTokenSilently();
-        token.set(newToken);
-        isAuthenticated.set(true);
-      }
+    if (!isAuth) {
+      await loginWithRedirect(client);
+    } else {
+      await setUser(client);
+      const newToken =await client.getTokenSilently();
+      token.set(newToken);
+      isAuthenticated.set(true);
+    }
 }
 
 const setUser = async (client: Auth0Client) => {

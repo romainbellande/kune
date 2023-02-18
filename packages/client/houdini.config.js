@@ -1,8 +1,9 @@
+// import { PUBLIC_API_URL } from '$env/static/public';
 /// <references types="houdini-svelte">
 
 /** @type {import('houdini').ConfigFile} */
 const config = {
-    "apiUrl": "http://127.0.0.1:3000/graphql",
+    apiUrl: (env) => `${env.PUBLIC_API_URL}/graphql`,
     "plugins": {
         "houdini-svelte": {}
     },

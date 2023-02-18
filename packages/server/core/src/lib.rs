@@ -37,7 +37,7 @@ pub async fn start() {
 
     let app = router(db);
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], CONFIG.port));
+    let addr = SocketAddr::from(([0, 0, 0, 0], CONFIG.port));
 
     println!("server listening on http://127.0.0.1:{}", CONFIG.port);
 
