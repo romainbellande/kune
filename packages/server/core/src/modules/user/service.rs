@@ -1,9 +1,10 @@
+use super::extract_uid;
 use crate::graphql::types::user::CreateUserDto;
 use crate::{
     errors::AppError,
     prisma::{user, PrismaClient},
 };
-use async_graphql::Result;
+use async_graphql::{Context, Result};
 
 pub async fn get_user_by_external_id(db: &PrismaClient, external_id: String) -> Result<user::Data> {
     db.user()
@@ -11,6 +12,11 @@ pub async fn get_user_by_external_id(db: &PrismaClient, external_id: String) -> 
         .exec()
         .await?
         .ok_or(AppError::UserNotFound(external_id).into())
+}
+
+pub async fn get_current_user(ctx: &Context<'_>, db: &PrismaClient) -> Result<user::Data> {
+    let external_uid = extract_uid(ctx).await?;
+    get_user_by_external_id(db, external_uid).await
 }
 
 pub async fn create(db: &PrismaClient, dto: CreateUserDto) -> Result<user::Data> {

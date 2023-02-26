@@ -5,6 +5,7 @@
   import type { CreateGroup$input } from '$houdini';
   import { user } from '@app/store';
   import { get } from 'svelte/store';
+  import { page } from '$app/stores';
 
   interface FormValues {
     name: string;
@@ -12,16 +13,9 @@
 
   const { form } = createForm({
     async onSubmit({ name }: FormValues) {
-      const ownerId = get(user)?.getUserByExternalId.id;
-
-      if (!ownerId) {
-        throw new Error('You must be logged in to create a group.');
-      }
-
       const input: CreateGroup$input = {
         dto: {
           name,
-          ownerId
         }
       };
 

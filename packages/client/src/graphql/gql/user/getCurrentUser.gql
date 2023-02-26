@@ -1,0 +1,15 @@
+query GetCurrentUser {
+  getCurrentUser {
+    id
+    name,
+    externalId,
+    groups {
+      name,
+      users {
+        id,
+        name,
+        externalId
+      }
+    }
+  }
+}

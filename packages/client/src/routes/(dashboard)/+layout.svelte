@@ -1,20 +1,8 @@
 <script lang="ts">
   import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
   import { page } from '$app/stores';
-  import { onMount } from 'svelte';
-
   import Sidebar from "@app/components/sidebar.svelte";
   import Navbar from "@app/components/navbar.svelte";
-  import authService from '@app/services/auth.service';
-	import { get } from 'svelte/store';
-
-
-
-  onMount(async () => {
-    const url = get(page).url;
-    console.log('url :>> ', url);
-    await authService.init(url);
-  });
 
   $: title = $page.data.title;
 
@@ -26,11 +14,12 @@
     })).filter(({ url }, index) => !(url === '/' && index > 0));
 </script>
 
-<div class="flex">
+{#if $page.data.session}
+<div class="flex min-h-screen">
   <Sidebar />
   <div class="flex flex-col flex-grow">
     <Navbar />
-    <div class="py-4">
+    <div class="p-4 flex-grow bg-slate-100">
       <Breadcrumb aria-label="Default breadcrumb example">
         {#each breadcrumbs as breadcrumb}
           <BreadcrumbItem home={breadcrumb.home} href={breadcrumb.url}>{breadcrumb.text}</BreadcrumbItem>
@@ -45,3 +34,11 @@
     </div>
   </div>
 </div>
+{:else}
+<h1>Access Denied</h1>
+<p>
+  <a href="/auth/signin">
+    You must be signed in to view this page
+  </a>
+</p>
+{/if}

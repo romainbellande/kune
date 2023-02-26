@@ -1,3 +1,4 @@
 .env
 .task
 /certs/*.pem
+.bash_history

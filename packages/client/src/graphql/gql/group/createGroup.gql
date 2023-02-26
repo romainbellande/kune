@@ -2,11 +2,6 @@ mutation CreateGroup($dto: CreateGroupDto!) {
   createGroup(dto: $dto) {
     id,
     name,
-    owner {
-      id,
-      name,
-      externalId,
-    },
     users {
     	id,
     	name,

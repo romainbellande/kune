@@ -23,6 +23,7 @@ pub struct Config {
     pub port: u16,
     pub database_url: String,
     pub auth0_domain: String,
+    pub auth0_audience: String,
     pub super_admin: CreateUserDto,
 }
 
@@ -38,6 +39,7 @@ impl Config {
                 .expect("PORT is not valid"),
             database_url,
             auth0_domain: env::var("AUTH0_DOMAIN").expect("AUTH0_DOMAIN must be set"),
+            auth0_audience: env::var("AUTH0_AUDIENCE").expect("AUTH0_AUDIENCE must be set"),
             super_admin: CreateUserDto {
                 name: env::var("SUPER_ADMIN_NAME").expect("SUPER_ADMIN_NAME must be set"),
                 external_id: env::var("SUPER_ADMIN_EXTERNAL_ID")

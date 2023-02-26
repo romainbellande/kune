@@ -9,4 +9,13 @@ declare global {
 	}
 }
 
-export {};
+import { DefaultSession } from '@auth/core';
+
+declare module "@auth/core" {
+  interface Session extends DefaultSession {
+		user?: {
+				id?: string | null;
+		} & DefaultSession["user"];
+  }
+}
+

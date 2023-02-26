@@ -21,3 +21,8 @@ curl http://api/graphql
 curl https://api/graphql
 curl https://api/graphql
 exit
+curl http://api.kune.localhost
+curl http://api.kune.localhost/graphql
+exit
+curl http://api.kune.localhost/graphql
+exit

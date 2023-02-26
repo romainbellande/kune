@@ -1,5 +1,8 @@
 use axum::Server;
-use std::net::SocketAddr;
+use std::{
+    net::SocketAddr,
+    sync::{Arc, Mutex},
+};
 
 mod graphql;
 mod state;
@@ -12,6 +15,7 @@ use router::router;
 mod config;
 mod errors;
 use config::CONFIG;
+mod utils;
 
 mod modules;
 
@@ -31,11 +35,24 @@ pub async fn start() {
         .await // --force-reset in CLI
         .expect("could not migrate database");
 
-    modules::user::inject_super_admin(&db)
+    println!("migration finalized");
+
+    let enforcer = modules::casbin::init()
+        .await
+        .expect("could not initialize casbin");
+
+    let state = State {
+        db: Arc::new(db),
+        enforcer: Arc::new(Mutex::new(enforcer)),
+    };
+
+    let _addr = SocketAddr::from(([0, 0, 0, 0], CONFIG.port));
+
+    modules::user::inject_super_admin(state.db.clone())
         .await
         .expect("an error occurred while injecting super admin");
 
-    let app = router(db);
+    let app = router(state);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], CONFIG.port));
 

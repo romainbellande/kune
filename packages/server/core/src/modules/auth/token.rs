@@ -42,7 +42,7 @@ impl AccessToken {
 
         validation.leeway = 5;
 
-        validation.set_audience(&["http://localhost:3000"]);
+        validation.set_audience(&[CONFIG.auth0_audience.clone()]);
 
         let issuer = format!("https://{}/", CONFIG.auth0_domain.clone());
 
@@ -72,7 +72,7 @@ impl AccessToken {
 pub struct AccessTokenRaw(pub String);
 
 impl AccessTokenRaw {
-    pub fn from_header(headers: &HeaderMap) -> Option<Self> {
+    pub fn from_headers(headers: &HeaderMap) -> Option<Self> {
         headers
             .typed_get::<Authorization<Bearer>>()
             .map(|value| Self(value.0.token().to_string()))

@@ -3,13 +3,3 @@ http:
     traefik:
       rule: "Host(`traefik.kune.localhost`)"
       service: "api@internal"
-      tls:
-        domains:
-          - main: "kune.localhost"
-            sans:
-              - "*.kune.localhost"
-
-tls:
-  certificates:
-    - certFile: "/etc/certs/local-cert.pem"
-      keyFile: "/etc/certs/local-key.pem"

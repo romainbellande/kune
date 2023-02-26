@@ -5,7 +5,6 @@ schema {
 
 input CreateGroupDto {
   name: String!
-  ownerId: String!
 }
 
 input CreateUserDto {
@@ -16,8 +15,6 @@ input CreateUserDto {
 type Group {
   id: String!
   name: String!
-  owner: User!
-  ownerId: String!
   users: [User!]!
 }
 
@@ -28,6 +25,8 @@ type MutationRoot {
 }
 
 type QueryRoot {
+  findUserGroups: [Group!]!
+  getCurrentUser: User!
   getUserByExternalId(externalId: String!): User!
 }
 

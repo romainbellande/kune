@@ -45,10 +45,13 @@
     "type": "module",
     "dependencies": {
         "@apollo/client": "^3.7.7",
+        "@auth/core": "^0.4.0",
+        "@auth/sveltekit": "^0.2.1",
         "@auth0/auth0-spa-js": "^2.0.2",
         "@tailwindcss/forms": "^0.5.3",
         "felte": "^1.2.7",
         "graphql": "^16.6.0",
-        "graphql-ws": "^5.11.3"
+        "graphql-ws": "^5.11.3",
+        "next-auth": "^4.19.2"
     }
 }

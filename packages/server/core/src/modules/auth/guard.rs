@@ -12,6 +12,7 @@ impl AuthGuard {
 
     pub async fn check_access_token(access_token_string: String) -> Result<(), Error> {
         AccessToken::from_string(access_token_string).await?;
+        // TODO: check if user exists in database
 
         Ok(())
     }

@@ -20,8 +20,8 @@
   }
 </style>
 
-<Navbar navClass="navclass relative py-3">
-    <Button outline>
+<Navbar navClass="navclass relative py-3 bg-primary" color="gray">
+    <Button>
       Create a group
       <Icon class="ml-2" icon="material-symbols:add-circle-outline" height={20} width={20} />
     </Button>
