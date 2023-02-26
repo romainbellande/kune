@@ -4,12 +4,11 @@ env:
   RUST_ENV: development
 
 tasks:
-  install:deps:
-    desc: install dependencies
+  init:
+    desc: initialize (e.g. install dependencies)
     cmds:
-      - cargo install systemfd
-      - cargo install cargo-watch
-      - cargo install sea-orm-cli
+      - rustup component add rustfmt
+      - rustup component add clippy
 
   start:
     desc: start server
@@ -20,11 +19,20 @@ tasks:
       - ./core/**/*.rs
       - ./entity/**/*.rs
       - ./migration/**/*.rs
+    deps:
+     - task: casbin:init
+
+  start:watch:
+    desc: start server and watch
+    cmds:
+      - cargo watch -x run
+    deps:
+      - task: prisma:gen
 
   lint:fix:
     desc: lint server and fix if possible
     cmds:
-      - cargo clippy --fix --allow-dirty --all
+      - cargo clippy --fix --allow-dirty --all --allow-no-vcs
 
   format:
     desc: format
@@ -36,3 +44,24 @@ tasks:
     cmds:
       - task: format
       - task: lint:fix
+
+  prisma:gen:
+    desc: generate prisma client
+    dir: ./core
+    cmds:
+      - cargo prisma generate
+
+  casbin:init:
+    desc: initialize casbin table
+    cmds:
+      - docker-compose exec pg psql postgres://pguser:pgpass@pg/kune -c "CREATE TABLE IF NOT EXISTS casbin_rule (
+        id SERIAL PRIMARY KEY,
+        ptype VARCHAR NOT NULL,
+        v0 VARCHAR NOT NULL,
+        v1 VARCHAR NOT NULL,
+        v2 VARCHAR NOT NULL,
+        v3 VARCHAR NOT NULL,
+        v4 VARCHAR NOT NULL,
+        v5 VARCHAR NOT NULL,
+        CONSTRAINT unique_key_sqlx_adapter UNIQUE(ptype, v0, v1, v2, v3, v4, v5)
+        );"

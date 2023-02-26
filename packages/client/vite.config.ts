@@ -3,6 +3,11 @@ import houdini from 'houdini/vite';
 import type { UserConfig } from 'vite';
 
 const config: UserConfig = {
+	server: {
+		proxy: {
+			'/graphql': 'http://api.kune.localhost'
+		}
+	},
 	plugins: [houdini(), sveltekit()],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']

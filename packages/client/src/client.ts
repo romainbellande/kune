@@ -1,20 +1,20 @@
 import { HoudiniClient, type RequestHandler } from '$houdini';
-import { token } from './store';
-import { get } from 'svelte/store';
+import { PUBLIC_API_URL } from '$env/static/public';
 
 const requestHandler: RequestHandler = async ({
 	fetch,
 	text = '',
 	variables = {},
-	metadata,
 	session
 }) => {
-	const url = 'http://127.0.0.1:3000/graphql';
+	console.log('session :>> ', session);
+	const { accessToken } = session;
+	const url = `${PUBLIC_API_URL}/graphql`;
 	const result = await fetch(url, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${get(token)}`
+			Authorization: `Bearer ${accessToken}`
 		},
 		body: JSON.stringify({
 			query: text,

@@ -1,1 +1,3 @@
 /target
+/core/src/prisma.rs
+/cargo

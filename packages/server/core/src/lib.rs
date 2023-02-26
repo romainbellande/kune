@@ -1,5 +1,8 @@
 use axum::Server;
-use std::net::SocketAddr;
+use std::{
+    net::SocketAddr,
+    sync::{Arc, Mutex},
+};
 
 mod graphql;
 mod state;
@@ -12,6 +15,7 @@ use router::router;
 mod config;
 mod errors;
 use config::CONFIG;
+mod utils;
 
 mod modules;
 
@@ -19,21 +23,38 @@ use crate::prisma::PrismaClient;
 mod prisma;
 
 pub async fn start() {
-    let prisma_client = PrismaClient::_builder().with_url(CONFIG.database_url.clone()).build().await.expect("can't instantiate prisma client");
+    let db = PrismaClient::_builder()
+        .with_url(CONFIG.database_url.clone())
+        .build()
+        .await
+        .expect("can't instantiate prisma client");
 
-    prisma_client
-        ._db_push()
+    db._db_push()
         .accept_data_loss() // --accept-data-loss in CLI
         .force_reset()
-        .await      // --force-reset in CLI
+        .await // --force-reset in CLI
         .expect("could not migrate database");
 
-    modules::user::inject_super_admin(&prisma_client).await
+    println!("migration finalized");
+
+    let enforcer = modules::casbin::init()
+        .await
+        .expect("could not initialize casbin");
+
+    let state = State {
+        db: Arc::new(db),
+        enforcer: Arc::new(Mutex::new(enforcer)),
+    };
+
+    let _addr = SocketAddr::from(([0, 0, 0, 0], CONFIG.port));
+
+    modules::user::inject_super_admin(state.db.clone())
+        .await
         .expect("an error occurred while injecting super admin");
 
-    let app = router(prisma_client);
+    let app = router(state);
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], CONFIG.port));
+    let addr = SocketAddr::from(([0, 0, 0, 0], CONFIG.port));
 
     println!("server listening on http://127.0.0.1:{}", CONFIG.port);
 

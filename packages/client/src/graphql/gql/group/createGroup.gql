@@ -1,0 +1,11 @@
+mutation CreateGroup($dto: CreateGroupDto!) {
+  createGroup(dto: $dto) {
+    id,
+    name,
+    users {
+    	id,
+    	name,
+      externalId
+  	}
+  }
+}

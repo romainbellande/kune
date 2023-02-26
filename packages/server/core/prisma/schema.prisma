@@ -1,6 +1,6 @@
 datasource db {
     provider = "postgresql"
-    url      = "postgres://pguser:pgpass@localhost:5450/kune"
+    url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -12,6 +12,28 @@ generator client {
 
 model User {
     id          String  @id @default(cuid())
-    name String
+    name        String
     external_id String @unique
+    groups Group[]
+}
+
+model Group {
+    id          String  @id @default(cuid())
+    name        String
+    users       User[]
+}
+
+model CasbinRule {
+    @@map("casbin_rule")
+
+    id  Int @id @default(autoincrement())
+    ptype String
+    v0 String
+    v1 String
+    v2 String
+    v3 String
+    v4 String
+    v5 String
+
+    @@unique([ptype, v0, v1, v2, v3, v4, v5])
 }

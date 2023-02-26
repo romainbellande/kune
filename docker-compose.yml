@@ -1,6 +1,26 @@
 version: "3.8"
 
 services:
+  traefik:
+    image: "traefik:v2.3"
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.useBindPortIP=true"
+      - "traefik.http.routers.traefik=true"
+      - "traefik.enable=true"
+    ports:
+      - "443:443"
+      - "80:80"
+      - "8080:8080"
+      - "8085:8085"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/config.yml:/etc/traefik/config.yml:ro
 
   pg:
     image: "postgres:14.4-alpine3.16"
@@ -12,6 +32,57 @@ services:
       - 5450:5432
     volumes:
       - pg-data:/var/lib/postgresql/data
+
+  client:
+    image: node:19-bullseye
+    user: "${UID}:${GID}"
+    working_dir: /home/node
+    command: ./wait-for-it.sh api:80 -t 240 -s -- npm run dev
+    restart: unless-stopped
+    environment:
+      PUBLIC_AUTH0_DOMAIN: $PUBLIC_AUTH0_DOMAIN
+      PUBLIC_AUTH0_CLIENT_ID: $PUBLIC_AUTH0_CLIENT_ID
+      PUBLIC_AUTH0_REDIRECT_URI: http://kune.localhost
+      PUBLIC_API_URL: http://api.kune.localhost
+      PRIVATE_AUTH0_SECRET: $PRIVATE_AUTH0_SECRET
+      PRIVATE_AUTH0_CLIENT_SECRET: $PRIVATE_AUTH0_CLIENT_SECRET
+    volumes:
+      - ./packages/client:/home/node
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.client.rule=Host(`kune.localhost`)"
+      - "traefik.http.routers.client.entrypoints=http"
+      - 'traefik.http.services.client.loadbalancer.server.port=5137'
+    depends_on:
+      - api
+
+  api:
+    hostname: api.kune.localhost
+    build:
+      context: .
+      dockerfile: ./docker/server/Dockerfile
+    command: task start:watch
+    user: "${UID}:${GID}"
+    restart: unless-stopped
+    environment:
+      RUST_VERSION: nighlty
+      DATABASE_URL: postgres://pguser:pgpass@pg/kune
+      RUST_ENV: development
+      PORT: 80
+      AUTH0_DOMAIN: $AUTH0_DOMAIN
+      AUTH0_AUDIENCE: http://api.kune.localhost
+      SUPER_ADMIN_NAME: $SUPER_ADMIN_NAME
+      SUPER_ADMIN_EXTERNAL_ID: $SUPER_ADMIN_EXTERNAL_ID
+      POOL_SIZE: 8
+    volumes:
+      - ./packages/server:/home/rust/app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.server.rule=Host(`api.kune.localhost`)"
+      - "traefik.http.routers.server.entrypoints=http"
+      - 'traefik.http.services.server.loadbalancer.server.port=80'
+    depends_on:
+      - pg
 
 volumes:
   pg-data:

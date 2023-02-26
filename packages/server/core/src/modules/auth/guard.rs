@@ -1,4 +1,4 @@
-use super::token::{AccessTokenRaw, AccessToken};
+use super::token::{AccessToken, AccessTokenRaw};
 use crate::errors::AppError;
 use async_graphql::{Context, Error, Guard, Result};
 use axum::async_trait;
@@ -12,6 +12,7 @@ impl AuthGuard {
 
     pub async fn check_access_token(access_token_string: String) -> Result<(), Error> {
         AccessToken::from_string(access_token_string).await?;
+        // TODO: check if user exists in database
 
         Ok(())
     }
@@ -20,9 +21,9 @@ impl AuthGuard {
 #[async_trait]
 impl Guard for AuthGuard {
     async fn check(&self, ctx: &Context<'_>) -> Result<(), Error> {
-        let access_token = ctx.data_opt::<AccessTokenRaw>().ok_or({
-          AppError::MissingAccessToken.into_graphql_error()
-        })?;
+        let access_token = ctx
+            .data_opt::<AccessTokenRaw>()
+            .ok_or(AppError::MissingAccessToken.into_graphql_error())?;
 
         Self::check_access_token(access_token.to_string()).await
     }
