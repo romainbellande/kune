@@ -24,8 +24,8 @@ pub async fn add_policy(
     let enforcer = extract_enforcer(ctx);
 
     let result = enforcer
-        .lock()
-        .unwrap()
+        .write()
+        .await
         .add_policy(vec![uid, gid, resource, permission])
         .await
         .map_err(|err| AppError::AclCreatePolicyError(err.to_string()).into_graphql_error());

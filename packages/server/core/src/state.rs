@@ -1,5 +1,6 @@
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 
+use tokio::sync::RwLock;
 use casbin::Enforcer;
 
 use crate::prisma::PrismaClient;
@@ -7,14 +8,5 @@ use crate::prisma::PrismaClient;
 #[derive(Clone)]
 pub struct State {
     pub db: Arc<PrismaClient>,
-    pub enforcer: Arc<Mutex<Enforcer>>,
+    pub enforcer: Arc<RwLock<Enforcer>>,
 }
-
-// impl Clone for State {
-//   fn clone(&self) -> Self {
-//       Self {
-//         db: self.db.clone(),
-//         enforcer: self.enforcer.clone(),
-//       }
-//   }
-// }

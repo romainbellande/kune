@@ -1,9 +1,9 @@
 use axum::Server;
 use std::{
     net::SocketAddr,
-    sync::{Arc, Mutex},
+    sync::Arc,
 };
-
+use tokio::sync::RwLock;
 mod graphql;
 mod state;
 pub use state::State;
@@ -43,7 +43,7 @@ pub async fn start() {
 
     let state = State {
         db: Arc::new(db),
-        enforcer: Arc::new(Mutex::new(enforcer)),
+        enforcer: Arc::new(RwLock::new(enforcer)),
     };
 
     let _addr = SocketAddr::from(([0, 0, 0, 0], CONFIG.port));

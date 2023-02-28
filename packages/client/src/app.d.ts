@@ -6,6 +6,9 @@ declare global {
 		// interface Locals {}
 		// interface PageData {}
 		// interface Platform {}
+		interface Session {
+			accessToken?: string;
+		}
 	}
 }
 
@@ -17,5 +20,9 @@ declare module "@auth/core" {
 				id?: string | null;
 		} & DefaultSession["user"];
   }
+
+	export interface JWT extends Record<string, unknown>, DefaultJWT {
+		exp: number;
+	}
 }
 

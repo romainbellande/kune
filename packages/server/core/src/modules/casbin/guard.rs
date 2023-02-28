@@ -31,11 +31,9 @@ impl Guard for RbacGuard {
         let permission = self.permission.to_string();
         let enforcer = extract_enforcer(ctx);
 
-        let enforcer = enforcer
-            .lock()
-            .map_err(|err| AppError::AclEnforceError(err.to_string()).into_graphql_error())?;
-
         enforcer
+            .read()
+            .await
             .enforce((
                 uid.clone(),
                 gid.clone(),

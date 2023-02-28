@@ -12,7 +12,9 @@ const config = {
         UUID: {
             type: "string",
         }
-    }
+    },
+    defaultCachePolicy: "NetworkOnly",
+    defaultLifetime: 0
 }
 
 export default config

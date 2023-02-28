@@ -7,7 +7,6 @@ export const handle = SvelteKitAuth({
     secret: PRIVATE_AUTH0_SECRET,
     session: {
         strategy: 'jwt',
-
     },
     providers: [
         //@ts-expect-error issue https://github.com/nextauthjs/next-auth/issues/6174
@@ -31,6 +30,7 @@ export const handle = SvelteKitAuth({
             }
 
             session.accessToken = token.accessToken;
+            session.expires = new Date(Number(token.exp || 0) * 1000).toString();
 
             return session;
         },
@@ -46,21 +46,3 @@ export const handle = SvelteKitAuth({
         }
     }
 })
-
-// import { setSession } from '$houdini'
-// import type { Handle } from '@sveltejs/kit'
-// import { token } from './store';
-// import { get } from 'svelte/store';
-
-// export const handle: Handle = async ({ event, resolve }) => {
-
-//     // get the user information however you want
-//     console.log('pong pong', event.cookies.get(''));
-//     const tokenValue = get(token);
-
-//     // set the session information for this event
-//     setSession(event, { token: tokenValue })
-
-//     // pass the event onto the default handle
-//     return await resolve(event)
-// }

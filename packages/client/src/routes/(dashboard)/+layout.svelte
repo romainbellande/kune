@@ -3,9 +3,14 @@
   import { page } from '$app/stores';
   import Sidebar from "@app/components/sidebar.svelte";
   import Navbar from "@app/components/navbar.svelte";
+  import type { PageData } from './$houdini';
+
+  export let data: PageData;
 
   $: title = $page.data.title;
 
+  $: ({ GetCurrentUser } = data);
+  $: groups = $GetCurrentUser.data?.getCurrentUser?.groups;
 
   $: breadcrumbs = $page.url.pathname.split('/').map(pathname => ({
       home: !pathname,
@@ -18,7 +23,7 @@
 <div class="flex min-h-screen">
   <Sidebar />
   <div class="flex flex-col flex-grow">
-    <Navbar />
+    <Navbar groups={groups} />
     <div class="p-4 flex-grow bg-slate-100">
       <Breadcrumb aria-label="Default breadcrumb example">
         {#each breadcrumbs as breadcrumb}

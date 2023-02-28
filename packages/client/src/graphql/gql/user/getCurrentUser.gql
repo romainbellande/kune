@@ -4,6 +4,7 @@ query GetCurrentUser {
     name,
     externalId,
     groups {
+      id,
       name,
       users {
         id,

@@ -1,35 +1,34 @@
 <script lang="ts">
-  import type { PageData } from './$types';
-  import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
+  import type { PageData } from './$houdini';
+  import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, Button } from 'flowbite-svelte';
+  import Icon from '@iconify/svelte';
+  import { goto } from '$app/navigation';
+  export let data: PageData;
+
+  $: ({ GetCurrentUser } = data);
+  $: groups = $GetCurrentUser.data?.getCurrentUser?.groups;
+  console.log('groups :>> ', groups);
 </script>
 
 <div>
   <Table>
     <TableHead>
       <TableHeadCell>Name</TableHeadCell>
-      <TableHeadCell>Color</TableHeadCell>
-      <TableHeadCell>Category</TableHeadCell>
-      <TableHeadCell>Price</TableHeadCell>
+      <TableHeadCell>Users</TableHeadCell>
+      <TableHeadCell>Actions</TableHeadCell>
     </TableHead>
     <TableBody>
-      <TableBodyRow>
-        <TableBodyCell>Apple MacBook Pro 17"</TableBodyCell>
-        <TableBodyCell>Sliver</TableBodyCell>
-        <TableBodyCell>Laptop</TableBodyCell>
-        <TableBodyCell>$2999</TableBodyCell>
-      </TableBodyRow>
-      <TableBodyRow>
-        <TableBodyCell>Microsoft Surface Pro</TableBodyCell>
-        <TableBodyCell>White</TableBodyCell>
-        <TableBodyCell>Laptop PC</TableBodyCell>
-        <TableBodyCell>$1999</TableBodyCell>
-      </TableBodyRow>
-      <TableBodyRow>
-        <TableBodyCell>Magic Mouse 2</TableBodyCell>
-        <TableBodyCell>Black</TableBodyCell>
-        <TableBodyCell>Accessories</TableBodyCell>
-        <TableBodyCell>$99</TableBodyCell>
-      </TableBodyRow>
+      {#each groups || [] as group}
+        <TableBodyRow>
+          <TableBodyCell>{group.name}</TableBodyCell>
+          <TableBodyCell>{group.users.length}</TableBodyCell>
+          <TableBodyCell >
+            <Button pill={true} class="!p-2" on:click={() => goto(`/groups/${group.id}`)}>
+              <Icon icon="material-symbols:arrow-forward-rounded" height={20} width={20} />
+            </Button>
+          </TableBodyCell>
+        </TableBodyRow>
+      {/each}
     </TableBody>
   </Table>
 </div>
