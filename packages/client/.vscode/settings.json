@@ -1,0 +1,16 @@
+{
+	"eslint.validate": ["javascript", "typescript", "svelte"],
+	"eslint.format.enable": true,
+	"eslint.packageManager": "pnpm",
+	"eslint.probe": [
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact",
+		"html",
+		"vue",
+		"markdown",
+		"svelte"
+	],
+	"eslint.useESLintClass": true
+}

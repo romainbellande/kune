@@ -1,7 +1,7 @@
 mutation CreateUserIfNotExists($dto: CreateUserDto!) {
-  createUserIfNotExists(dto: $dto) {
-    id,
-    externalId,
-    name
-  }
+	createUserIfNotExists(dto: $dto) {
+		id
+		externalId
+		name
+	}
 }

@@ -40,3 +40,5 @@ You can preview the production build with `npm run preview`.
 ## Resources
 
 - [NexAuth / Sveltekit integration](https://github.com/nextauthjs/next-auth/tree/main/apps/examples/sveltekit)
+- [dribble social media](https://dribbble.com/shots/19603526/attachments/14726373?mode=media)
+- [unsplash](https://unsplash.com/)

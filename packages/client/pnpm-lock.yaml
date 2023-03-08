@@ -2,8 +2,8 @@ lockfileVersion: 5.4
 
 specifiers:
   '@apollo/client': ^3.7.7
-  '@auth/core': ^0.4.0
-  '@auth/sveltekit': ^0.2.1
+  '@auth/core': ^0.5.0
+  '@auth/sveltekit': ^0.2.2
   '@auth0/auth0-spa-js': ^2.0.2
   '@iconify/svelte': ^3.1.0
   '@popperjs/core': ^2.11.6
@@ -27,7 +27,8 @@ specifiers:
   next-auth: ^4.19.2
   postcss: ^8.4.21
   prettier: ^2.8.0
-  prettier-plugin-svelte: ^2.8.1
+  prettier-plugin-svelte: ^2.9.0
+  prettier-plugin-tailwindcss: ^0.2.4
   sass: ^1.58.1
   svelte: ^3.54.0
   svelte-check: ^3.0.1
@@ -39,8 +40,8 @@ specifiers:
 
 dependencies:
   '@apollo/client': 3.7.7_v7q3lfq66aj3bc2gojm44cb3xi
-  '@auth/core': 0.4.0
-  '@auth/sveltekit': 0.2.1_7ahnm55hdlrtxl33pwc2wx5yda
+  '@auth/core': 0.5.0
+  '@auth/sveltekit': 0.2.2_7ahnm55hdlrtxl33pwc2wx5yda
   '@auth0/auth0-spa-js': 2.0.3
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.6
   felte: 1.2.7_svelte@3.55.1
@@ -67,6 +68,7 @@ devDependencies:
   postcss: 8.4.21
   prettier: 2.8.4
   prettier-plugin-svelte: 2.9.0_jrsxveqmsx2uadbqiuq74wlc4u
+  prettier-plugin-tailwindcss: 0.2.4_yjdjpc7im5hvpskij45owfsns4
   sass: 1.58.1
   svelte: 3.55.1
   svelte-check: 3.0.3_jb7bp2u3nyyo2a5hx4atp7tjn4
@@ -113,22 +115,6 @@ packages:
       zen-observable-ts: 1.2.5
     dev: false
 
-  /@auth/core/0.3.0:
-    resolution: {integrity: sha512-4bmPzEiQKSXD825Jrcgj7igSFghBTpkSQ6U/jnYABJRQGhwnWJ/q9FHxEo6SGZWvYvpjOrvJOWhrP4Xng4CGUQ==}
-    peerDependencies:
-      nodemailer: 6.8.0
-    peerDependenciesMeta:
-      nodemailer:
-        optional: true
-    dependencies:
-      '@panva/hkdf': 1.0.4
-      cookie: 0.5.0
-      jose: 4.12.0
-      oauth4webapi: 2.1.0
-      preact: 10.11.3
-      preact-render-to-string: 5.2.3_preact@10.11.3
-    dev: false
-
   /@auth/core/0.4.0:
     resolution: {integrity: sha512-wHVljvVGPmKSjlxQUYZCOL4GGe26YqhT351sA2REE43YskaqRMYh1TVjBxpXcdG8/P8bw2DsHgl+aBEV3P5+KQ==}
     peerDependencies:
@@ -145,13 +131,29 @@ packages:
       preact-render-to-string: 5.2.3_preact@10.11.3
     dev: false
 
-  /@auth/sveltekit/0.2.1_7ahnm55hdlrtxl33pwc2wx5yda:
-    resolution: {integrity: sha512-uC1xxWLCWsd581yMzOAiOhUudsjA/HHYuFXMOnvxB4gRcxQV9bW3t+GcP2NWWah6gU00kMc7r2JsVhGyPNANGQ==}
+  /@auth/core/0.5.0:
+    resolution: {integrity: sha512-NZu+H1rfYPewBDelZ4nZn7Vd2i6kVSUZQAcrQtEYylbSVVpVglcAfnHDq0FsIFXN1czQk13qdmm+CbIEr/C+iA==}
+    peerDependencies:
+      nodemailer: ^6.8.0
+    peerDependenciesMeta:
+      nodemailer:
+        optional: true
+    dependencies:
+      '@panva/hkdf': 1.0.4
+      cookie: 0.5.0
+      jose: 4.12.0
+      oauth4webapi: 2.1.0
+      preact: 10.11.3
+      preact-render-to-string: 5.2.3_preact@10.11.3
+    dev: false
+
+  /@auth/sveltekit/0.2.2_7ahnm55hdlrtxl33pwc2wx5yda:
+    resolution: {integrity: sha512-8PL1120J22RrmsGu8VXTeUvTldSNRqvs/hhEsx9DYswdS5o4umhXsJI5JDbBS3hzpuq7i4LgVEOueW7zQgn9dg==}
     peerDependencies:
       '@sveltejs/kit': ^1.0.0
       svelte: ^3.54.0
     dependencies:
-      '@auth/core': 0.3.0
+      '@auth/core': 0.4.0
       '@sveltejs/kit': 1.5.3_svelte@3.55.1+vite@4.1.1
       svelte: 3.55.1
     transitivePeerDependencies:
@@ -2333,6 +2335,62 @@ packages:
     dependencies:
       prettier: 2.8.4
       svelte: 3.55.1
+    dev: true
+
+  /prettier-plugin-tailwindcss/0.2.4_yjdjpc7im5hvpskij45owfsns4:
+    resolution: {integrity: sha512-wMyugRI2yD8gqmMpZSS8kTA0gGeKozX/R+w8iWE+yiCZL09zY0SvfiHfHabNhjGhzxlQ2S2VuTxPE3T72vppCQ==}
+    engines: {node: '>=12.17.0'}
+    peerDependencies:
+      '@ianvs/prettier-plugin-sort-imports': '*'
+      '@prettier/plugin-php': '*'
+      '@prettier/plugin-pug': '*'
+      '@shopify/prettier-plugin-liquid': '*'
+      '@shufo/prettier-plugin-blade': '*'
+      '@trivago/prettier-plugin-sort-imports': '*'
+      prettier: '>=2.2.0'
+      prettier-plugin-astro: '*'
+      prettier-plugin-css-order: '*'
+      prettier-plugin-import-sort: '*'
+      prettier-plugin-jsdoc: '*'
+      prettier-plugin-organize-attributes: '*'
+      prettier-plugin-organize-imports: '*'
+      prettier-plugin-style-order: '*'
+      prettier-plugin-svelte: '*'
+      prettier-plugin-twig-melody: '*'
+    peerDependenciesMeta:
+      '@ianvs/prettier-plugin-sort-imports':
+        optional: true
+      '@prettier/plugin-php':
+        optional: true
+      '@prettier/plugin-pug':
+        optional: true
+      '@shopify/prettier-plugin-liquid':
+        optional: true
+      '@shufo/prettier-plugin-blade':
+        optional: true
+      '@trivago/prettier-plugin-sort-imports':
+        optional: true
+      prettier-plugin-astro:
+        optional: true
+      prettier-plugin-css-order:
+        optional: true
+      prettier-plugin-import-sort:
+        optional: true
+      prettier-plugin-jsdoc:
+        optional: true
+      prettier-plugin-organize-attributes:
+        optional: true
+      prettier-plugin-organize-imports:
+        optional: true
+      prettier-plugin-style-order:
+        optional: true
+      prettier-plugin-svelte:
+        optional: true
+      prettier-plugin-twig-melody:
+        optional: true
+    dependencies:
+      prettier: 2.8.4
+      prettier-plugin-svelte: 2.9.0_jrsxveqmsx2uadbqiuq74wlc4u
     dev: true
 
   /prettier/2.8.4:

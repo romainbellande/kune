@@ -1,11 +1,11 @@
 query FindUserGroups {
- 	 findUserGroups {
-    id,
-    name,
-    users {
-      id,
-     	name,
-      externalId
-    }
-  }
+	findUserGroups {
+		id
+		name
+		users {
+			id
+			name
+			externalId
+		}
+	}
 }

@@ -14,15 +14,15 @@ declare global {
 
 import { DefaultSession } from '@auth/core';
 
-declare module "@auth/core" {
-  interface Session extends DefaultSession {
+declare module '@auth/core' {
+	interface Session extends DefaultSession {
 		user?: {
-				id?: string | null;
-		} & DefaultSession["user"];
-  }
+			id?: string | null;
+		} & DefaultSession['user'];
+		accessToken?: string;
+	}
 
 	export interface JWT extends Record<string, unknown>, DefaultJWT {
-		exp: number;
+		expires_at: number;
 	}
 }
-

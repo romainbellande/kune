@@ -1,16 +1,16 @@
 query GetCurrentUser {
-  getCurrentUser {
-    id
-    name,
-    externalId,
-    groups {
-      id,
-      name,
-      users {
-        id,
-        name,
-        externalId
-      }
-    }
-  }
+	getCurrentUser {
+		id
+		name
+		externalId
+		groups {
+			id
+			name
+			users {
+				id
+				name
+				externalId
+			}
+		}
+	}
 }
