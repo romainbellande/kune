@@ -27,15 +27,15 @@
 		<Sidebar />
 		<div class="flex flex-grow flex-col">
 			<Navbar {groups} />
-			<div class="flex-grow bg-slate-50 p-4">
-				<Breadcrumb aria-label="Default breadcrumb example">
+			<div class="flex flex-col flex-grow  bg-slate-50 p-4">
+				<Breadcrumb aria-label="Default breadcrumb example" navClass="flex flex-grow-0">
 					{#each breadcrumbs as breadcrumb}
 						<BreadcrumbItem home={breadcrumb.home} href={breadcrumb.url}
 							>{breadcrumb.text}</BreadcrumbItem
 						>
 					{/each}
 				</Breadcrumb>
-				<div class="pt-8 text-slate-800">
+				<div class="pt-8 text-slate-800 flex flex-grow">
 					{#if title}
 						<h2 class="pb-16 text-xl">{title}</h2>
 					{/if}
