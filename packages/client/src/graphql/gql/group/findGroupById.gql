@@ -1,0 +1,13 @@
+query FindGroupById($id: String!) {
+  findGroupById(id: $id) {
+    id,
+    name,
+    private,
+    slug,
+    users {
+      id,
+      name,
+      externalId
+    }
+  }
+}

@@ -17,8 +17,17 @@ pub async fn add_policy(
     resource: Resource,
     permission: Permission,
 ) -> Result<bool> {
-    let uid = user::extract_uid(ctx).await?;
     let gid = group::extract_gid(ctx)?;
+    add_policy_with_gid(ctx, gid, resource, permission).await
+}
+
+pub async fn add_policy_with_gid(
+    ctx: &Context<'_>,
+    gid: String,
+    resource: Resource,
+    permission: Permission,
+) -> Result<bool> {
+    let uid = user::extract_uid(ctx).await?;
     let resource = resource.to_string();
     let permission = permission.to_string();
     let enforcer = extract_enforcer(ctx);

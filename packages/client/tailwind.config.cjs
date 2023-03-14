@@ -1,16 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: [
-		'./src/**/*.{html,js,svelte,ts}',
-		'./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}'
-	],
+	darkMode: 'class',
+	content: ['./src/**/*.{html,js,svelte,ts}', require('path').join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')],
 	theme: {
-		extend: {
-			colors: {
-				primary: '#1f2937'
-			}
-		}
+		extend: {},
 	},
-	plugins: [require('@tailwindcss/forms'), require('flowbite/plugin')],
-	darkMode: 'class'
-};
+	plugins: [require('@tailwindcss/forms'),require('@tailwindcss/typography'),require('@tailwindcss/line-clamp'),...require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')()],
+}

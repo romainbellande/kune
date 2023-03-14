@@ -2,6 +2,8 @@ query FindUserGroups {
 	findUserGroups {
 		id
 		name
+		private
+		slug
 		users {
 			id
 			name

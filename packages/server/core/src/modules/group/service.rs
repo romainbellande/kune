@@ -15,6 +15,8 @@ pub async fn create(
     db.group()
         .create(
             dto.name,
+            dto.slug,
+            dto.private,
             vec![group::users::connect(vec![user::id::equals(owner_id)])],
         )
         .exec()
@@ -60,4 +62,15 @@ pub async fn find_all_user_groups(
     };
 
     Ok(paginated_result)
+}
+
+pub async fn find_by_id(db: &PrismaClient, id: String) -> Result<Group> {
+    let result = db.group()
+        .find_unique(group::id::equals(id.clone()))
+        .exec()
+        .await
+        .map_err(|err| AppError::GroupsFindError(err.to_string()).into_graphql_error())?
+        .ok_or(AppError::GroupNotFound(id))?;
+
+    Ok(result.into())
 }

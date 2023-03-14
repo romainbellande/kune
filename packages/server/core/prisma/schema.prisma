@@ -20,6 +20,8 @@ model User {
 model Group {
     id          String  @id @default(cuid())
     name        String
+    slug        String @unique
+    private     Boolean
     users       User[]
 }
 

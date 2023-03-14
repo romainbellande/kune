@@ -3,7 +3,7 @@ pub use guard::RbacGuard;
 mod acl;
 mod extractor;
 use crate::CONFIG;
-pub use acl::{Permission, Resource, add_policy};
+pub use acl::{Permission, Resource, add_policy, add_policy_with_gid};
 use sqlx_adapter::casbin::prelude::*;
 use sqlx_adapter::casbin::Result;
 use sqlx_adapter::SqlxAdapter;

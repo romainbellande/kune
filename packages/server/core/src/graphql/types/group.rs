@@ -8,13 +8,17 @@ use async_graphql::{ComplexObject, Context, InputObject, Result, SimpleObject};
 #[derive(InputObject, Clone)]
 pub struct CreateGroupDto {
     pub name: String,
+    pub private: bool,
+    pub slug: String,
 }
 
 #[derive(SimpleObject)]
 #[graphql(complex)]
 pub struct Group {
-    id: String,
-    name: String,
+    pub id: String,
+    pub name: String,
+    pub private: bool,
+    pub slug: String,
 }
 
 #[ComplexObject]
@@ -42,6 +46,8 @@ impl From<group::Data> for Group {
         Group {
             id: val.id,
             name: val.name,
+            private: val.private,
+            slug: val.slug,
         }
     }
 }

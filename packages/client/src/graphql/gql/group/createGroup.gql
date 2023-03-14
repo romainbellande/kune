@@ -2,6 +2,8 @@ mutation CreateGroup($dto: CreateGroupDto!) {
 	createGroup(dto: $dto) {
 		id
 		name
+		private
+		slug
 		users {
 			id
 			name

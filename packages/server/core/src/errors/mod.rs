@@ -40,11 +40,17 @@ pub enum AppError {
     #[error("error during user groups fetch: {0}")]
     GroupsFindError(String),
 
+    #[error("error during user group fetch: {0}")]
+    GroupFindError(String),
+
     #[error("error during groups counting: {0}")]
     GroupsCountError(String),
 
     #[error("missing group id")]
     GroupIDMissing,
+
+    #[error("group {0} not found")]
+    GroupNotFound(String),
 
     // ACL
     #[error("user {user:?} is not allowed to {permission:?} for resource {resource:?} in group {group:?}")]
@@ -81,6 +87,8 @@ impl AppError {
             Self::AclError { .. } => "ACL_ERROR",
             Self::AclCreatePolicyError(_) => "ACL_CREATE_POLICY_ERROR",
             Self::AclEnforceError(_) => "ACL_ENFORCE_ERROR",
+            Self::GroupFindError(_) => "GROUP_FIND_ERROR",
+            Self::GroupNotFound(_) => "GROUP_NOT_FOUND",
         };
 
         str.to_string()

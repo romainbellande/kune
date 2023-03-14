@@ -11,7 +11,6 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$houdini: './$houdini',
-			'@app': './src'
 		}
 	}
 };
