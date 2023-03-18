@@ -12,11 +12,11 @@
 </script>
 
 {#if breadcrumbs.length > 1}
-<div class="p-4 text-token flex justify-center m-4 max-w-max">
-	<ol class="breadcrumb ">
-		{#each breadcrumbs as breadcrumb}
-			<BreadcrumbItem href={breadcrumb.url}>{breadcrumb.text}</BreadcrumbItem>
-		{/each}
-	</ol>
-</div>
+	<div class="m-4 flex max-w-max justify-center p-4 text-token">
+		<ol class="breadcrumb ">
+			{#each breadcrumbs as breadcrumb}
+				<BreadcrumbItem href={breadcrumb.url}>{breadcrumb.text}</BreadcrumbItem>
+			{/each}
+		</ol>
+	</div>
 {/if}

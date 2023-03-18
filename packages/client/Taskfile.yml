@@ -1,0 +1,7 @@
+version: '3'
+
+tasks:
+  fix:all:
+    desc: fill format and lint issues when it is possible
+    cmds:
+      - pnpm fix:all

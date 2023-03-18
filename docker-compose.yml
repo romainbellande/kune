@@ -34,7 +34,9 @@ services:
       - pg-data:/var/lib/postgresql/data
 
   client:
-    image: node:19-bullseye
+    build:
+      context: .
+      dockerfile: ./docker/client/Dockerfile
     user: "${UID}:${GID}"
     working_dir: /home/node
     command: ./wait-for-it.sh api:80 -t 240 -s -- npm run dev

@@ -7,11 +7,11 @@
 </script>
 
 <label class="flex flex-col space-y-2">
-	<span class="space-x-1 font-medium flex">
+	<span class="flex space-x-1 font-medium">
 		<span class="capitalize-first ">{label}</span>
 		{#if required}
 			<span class="text-red-700">*</span>
 		{/if}
 	</span>
-	<input class="input bg-surface-500" {type} {name} {placeholder} {required} />
+	<input class="input" {type} {name} {placeholder} {required} />
 </label>

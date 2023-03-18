@@ -1,9 +1,14 @@
 mod guard;
 pub use guard::RbacGuard;
 mod acl;
+mod default;
 mod extractor;
 use crate::CONFIG;
-pub use acl::{Permission, Resource, add_policy, add_policy_with_gid};
+pub use acl::{
+    add_default_group_policies, add_policy, add_policy_with_gid, add_user_role, Permission,
+    Resource,
+};
+pub use default::DefaultRole;
 use sqlx_adapter::casbin::prelude::*;
 use sqlx_adapter::casbin::Result;
 use sqlx_adapter::SqlxAdapter;

@@ -21,3 +21,9 @@ tasks:
     cmds:
       - mkcert -install
       - mkcert -cert-file traefik/certs/local-cert.pem -key-file traefik/certs/local-key.pem "kune.localhost" "*.kune.localhost"
+
+  fix:all:
+    desc: fill format and lint issues when it is possible
+    cmds:
+      - docker-compose exec api task fix:all
+      - docker-compose exec client task fix:all

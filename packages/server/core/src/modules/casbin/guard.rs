@@ -6,7 +6,7 @@ use crate::errors::AppError;
 use crate::modules::{group, user};
 use async_graphql::{Context, Guard, Result};
 use axum::async_trait;
-use casbin::{CoreApi};
+use casbin::CoreApi;
 
 pub struct RbacGuard {
     resource: Resource,

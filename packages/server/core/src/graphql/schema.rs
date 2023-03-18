@@ -7,7 +7,6 @@ use crate::{
 };
 use async_graphql::{EmptySubscription, MergedObject, Schema};
 
-
 #[derive(MergedObject, Default)]
 pub struct QueryRoot(UserQuery, GroupQuery);
 

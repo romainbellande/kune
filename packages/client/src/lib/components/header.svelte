@@ -11,7 +11,7 @@
 	const onGroupChange = ({ detail }: CustomEvent<string>) => {
 		const groupId = detail;
 		goto(`/${groupId}`);
-	}
+	};
 </script>
 
 <AppBar
@@ -27,17 +27,17 @@
 				<Icon icon="ci:hamburger-md" width={24} style="min-width: 24px;" />
 			</button>
 			{#if groups.length > 0}
-			<Select customClass="ml-[70px]" on:change={onGroupChange}>
-				{#each groups as group}
-					<option value={group.id}>{group.name}</option>
-				{/each}
-			</Select>
+				<Select customClass="ml-[70px]" on:change={onGroupChange}>
+					{#each groups as group}
+						<option value={group.id}>{group.name}</option>
+					{/each}
+				</Select>
 			{/if}
 		</div>
 	</svelte:fragment>
 
 	<img class="h-16 w-16 lg:hidden" alt="Kune logo" src={logo} />
-  <h1 class="capitalize hidden lg:block">kune</h1>
+	<h1 class="hidden capitalize lg:block">kune</h1>
 
 	<svelte:fragment slot="trail">
 		<Avatar initials="JD" background="bg-primary-500" width="w-12" />

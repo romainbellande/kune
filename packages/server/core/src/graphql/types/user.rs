@@ -1,12 +1,7 @@
 use super::group::Group;
 
-use crate::{
-    errors::AppError,
-    prisma::{user},
-    State,
-};
+use crate::{errors::AppError, prisma::user, State};
 use async_graphql::{ComplexObject, Context, InputObject, Result, SimpleObject};
-
 
 #[derive(InputObject, Clone)]
 pub struct CreateUserDto {

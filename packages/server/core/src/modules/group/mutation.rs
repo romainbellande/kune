@@ -1,9 +1,9 @@
 use super::service;
 use crate::graphql::types::group::{CreateGroupDto, Group};
 use crate::modules::auth::guard::AuthGuard;
+use crate::modules::casbin::{add_default_group_policies, add_user_role, DefaultRole};
 use crate::modules::user::extractor::CurrentUser;
-use crate::modules::casbin::{add_policy_with_gid, Resource, Permission};
-use crate::{State};
+use crate::State;
 use async_graphql::{Context, Object, Result};
 
 #[derive(Default)]
@@ -19,7 +19,9 @@ impl GroupMutation {
             .await
             .map(|data| data.into())?;
 
-        add_policy_with_gid(ctx, group.id.clone(), Resource::Group, Permission::Admin).await?;
+        add_default_group_policies(ctx, group.id.clone()).await?;
+
+        add_user_role(ctx, group.id.clone(), DefaultRole::SuperAdmin.to_string()).await?;
 
         Ok(group)
     }

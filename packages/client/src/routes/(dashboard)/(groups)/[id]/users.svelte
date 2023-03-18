@@ -37,7 +37,7 @@
 			</button>
 		</h4>
 	</header>
-	<section class="p-4 space-y-4">
+	<section class="space-y-4 p-4">
 		<!-- Responsive Container (recommended) -->
 		<div class="table-container">
 			<!-- Native Table Element -->

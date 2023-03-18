@@ -8,7 +8,9 @@ RUN chown -R rust /home/rust/cargo
 
 RUN sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
 
-RUN cargo install cargo-watch
+RUN cargo install cargo-watch && \
+    rustup component add rustfmt && \
+    rustup component add clippy
 
 ENV CARGO_HOME=/home/rust/cargo
 

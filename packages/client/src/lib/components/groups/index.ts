@@ -1,1 +1,1 @@
-export { default as Groupform} from './group-form.svelte';
+export { default as Groupform } from './group-form.svelte';

@@ -6,7 +6,7 @@
 	interface SidebarItemProps {
 		href: string;
 		icon: string;
-    label: string;
+		label: string;
 	}
 
 	export const items: SidebarItemProps[] = [];
@@ -16,7 +16,7 @@
 			{
 				href: '/referendum',
 				icon: 'mdi:people-group',
-				label: 'referendum',
+				label: 'referendum'
 			}
 		];
 
@@ -24,7 +24,7 @@
 	}
 </script>
 
-<div class="hidden h-full lg:block shadow-lg">
+<div class="hidden h-full shadow-lg lg:block">
 	<AppRail>
 		{#each items as item, index}
 			<SidebarItem href={item.href} icon={item.icon} label={item.label} />

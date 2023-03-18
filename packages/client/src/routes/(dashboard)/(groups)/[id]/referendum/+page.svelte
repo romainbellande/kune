@@ -1,3 +1,1 @@
-<div>
-  referendum
-</div>
+<div>referendum</div>

@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
-use tokio::sync::RwLock;
 use casbin::Enforcer;
+use tokio::sync::RwLock;
 
 use crate::prisma::PrismaClient;
 

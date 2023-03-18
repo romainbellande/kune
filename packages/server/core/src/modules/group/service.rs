@@ -65,7 +65,8 @@ pub async fn find_all_user_groups(
 }
 
 pub async fn find_by_id(db: &PrismaClient, id: String) -> Result<Group> {
-    let result = db.group()
+    let result = db
+        .group()
         .find_unique(group::id::equals(id.clone()))
         .exec()
         .await

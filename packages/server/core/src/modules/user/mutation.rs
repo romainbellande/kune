@@ -1,7 +1,7 @@
 use super::service;
 use crate::graphql::types::user::{CreateUserDto, User};
 use crate::modules::auth::guard::AuthGuard;
-use crate::{State};
+use crate::State;
 use async_graphql::{Context, Object, Result};
 
 #[derive(Default)]

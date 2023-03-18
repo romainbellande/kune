@@ -1,8 +1,5 @@
 use axum::Server;
-use std::{
-    net::SocketAddr,
-    sync::Arc,
-};
+use std::{net::SocketAddr, sync::Arc};
 use tokio::sync::RwLock;
 mod graphql;
 mod state;
