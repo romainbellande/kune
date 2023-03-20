@@ -5,7 +5,7 @@
 	import type { PageData } from './$houdini';
 	export let data: PageData;
 
-	$: users = data?.data?.getCurrentGroup.users;
+	$: ({ GetCurrentGroup } = data);
 </script>
 
 <Page>
@@ -30,6 +30,6 @@
 			venenatis. Phasellus vulputate, nisl et congue pulvinar, velit velit tempus leo, eleifend
 			finibus purus lorem ultrices turpis. Nam commodo eleifend mi quis commodo.
 		</p>
-		<Users {users} />
+		<Users users={$GetCurrentGroup.data?.getCurrentGroup.users} />
 	</div>
 </Page>
