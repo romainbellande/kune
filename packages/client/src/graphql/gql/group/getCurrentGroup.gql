@@ -1,4 +1,4 @@
-query GetCurrentGroup	 {
+query GetCurrentGroup {
 	getCurrentGroup {
 		id
 		name

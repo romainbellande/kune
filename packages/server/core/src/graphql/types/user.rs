@@ -1,6 +1,6 @@
 use super::group::Group;
 
-use crate::{errors::AppError, prisma::user, State, modules::casbin::get_user_roles};
+use crate::{errors::AppError, modules::casbin::get_user_roles, prisma::user, State};
 use async_graphql::{ComplexObject, Context, InputObject, Result, SimpleObject};
 
 #[derive(InputObject, Clone)]

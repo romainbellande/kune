@@ -9,7 +9,7 @@ tasks:
   dce:
     desc: docker-compose exec alias
     cmds:
-     - docker-compose exec client {{.CLI_ARGS}}
+      - docker-compose exec client {{.CLI_ARGS}}
 
   graphql:gen:
     desc: generate graphql types

@@ -11,7 +11,7 @@ export default new HoudiniClient({
 		console.log('gid :>> ', gid);
 		const headers: HeadersInit = {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${accessToken}`,
+			Authorization: `Bearer ${accessToken}`
 		};
 
 		if (gid) {

@@ -5,8 +5,8 @@ mod default;
 mod extractor;
 use crate::CONFIG;
 pub use acl::{
-    add_default_group_policies, add_policy, add_policy_with_gid, add_user_role, Permission, get_user_roles,
-    Resource,
+    add_default_group_policies, add_policy, add_policy_with_gid, add_user_role, get_user_roles,
+    Permission, Resource,
 };
 pub use default::DefaultRole;
 use sqlx_adapter::casbin::prelude::*;

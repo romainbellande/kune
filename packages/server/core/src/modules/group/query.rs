@@ -1,4 +1,4 @@
-use super::{service, extract_gid};
+use super::{extract_gid, service};
 use crate::graphql::types::{group::Group, user::User};
 use crate::modules::auth::guard::AuthGuard;
 use crate::modules::casbin::{Permission, RbacGuard, Resource};
