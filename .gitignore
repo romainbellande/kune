@@ -2,3 +2,4 @@
 .task
 /certs/*.pem
 .bash_history
+node_modules

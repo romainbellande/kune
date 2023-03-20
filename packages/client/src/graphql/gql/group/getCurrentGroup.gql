@@ -1,5 +1,5 @@
-query FindGroupById($id: String!) {
-	findGroupById(id: $id) {
+query GetCurrentGroup	 {
+	getCurrentGroup {
 		id
 		name
 		private
@@ -8,6 +8,7 @@ query FindGroupById($id: String!) {
 			id
 			name
 			externalId
+			roles
 		}
 	}
 }

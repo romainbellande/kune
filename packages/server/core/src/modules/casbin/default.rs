@@ -73,13 +73,13 @@ pub fn get_default_policies() -> Vec<Policies> {
         .add(Resource::Referendum, vec![Read])
         .to_owned();
 
-    let editor_policies: Policies = Policies::new(DefaultRole::Member.to_string())
+    let editor_policies: Policies = Policies::new(DefaultRole::Editor.to_string())
         .add(Resource::Group, vec![Read, Edit])
         .add(Resource::User, vec![Read, Edit])
         .add(Resource::Referendum, vec![Read, Edit])
         .to_owned();
 
-    let admin_policies: Policies = Policies::new(DefaultRole::Member.to_string())
+    let admin_policies: Policies = Policies::new(DefaultRole::Admin.to_string())
         .add(Resource::Group, vec![Read, Edit])
         .add(Resource::User, vec![Read, Edit, Write, Delete])
         .add(
