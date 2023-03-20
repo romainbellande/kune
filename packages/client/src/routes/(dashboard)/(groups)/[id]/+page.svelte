@@ -2,6 +2,10 @@
 	import { Page } from '$lib/components';
 	import Icon from '@iconify/svelte';
 	import Users from './users.svelte';
+	import type { PageData } from './$houdini';
+	export let data: PageData;
+
+	$: users = data?.data?.getCurrentGroup.users;
 </script>
 
 <Page>
@@ -26,6 +30,6 @@
 			venenatis. Phasellus vulputate, nisl et congue pulvinar, velit velit tempus leo, eleifend
 			finibus purus lorem ultrices turpis. Nam commodo eleifend mi quis commodo.
 		</p>
-		<Users />
+		<Users {users} />
 	</div>
 </Page>

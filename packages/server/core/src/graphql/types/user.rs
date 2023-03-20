@@ -1,6 +1,6 @@
 use super::group::Group;
 
-use crate::{errors::AppError, prisma::user, State};
+use crate::{errors::AppError, modules::casbin::get_user_roles, prisma::user, State};
 use async_graphql::{ComplexObject, Context, InputObject, Result, SimpleObject};
 
 #[derive(InputObject, Clone)]
@@ -38,6 +38,10 @@ impl User {
             .collect();
 
         Ok(groups)
+    }
+
+    pub async fn roles(&self, ctx: &Context<'_>) -> Result<Vec<String>> {
+        get_user_roles(ctx).await
     }
 }
 

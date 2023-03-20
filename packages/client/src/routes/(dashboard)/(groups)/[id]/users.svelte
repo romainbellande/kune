@@ -2,23 +2,10 @@
 	import Icon from '@iconify/svelte';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import type { PaginationSettings } from '@skeletonlabs/skeleton/components/Paginator/types';
-	import { writable, type Writable } from 'svelte/store';
+	import type { GetCurrentGroup$result } from '$houdini';
 
-	interface User {
-		name: string;
-		role: string;
-	}
-
-	const users: User[] = [
-		{
-			name: 'John Doe',
-			role: 'admin'
-		},
-		{
-			name: 'Jane Doe',
-			role: 'member'
-		}
-	];
+	export let users: GetCurrentGroup$result['getCurrentGroup']['users'] = [];
+	console.log('users :>> ', users);
 
 	let page: PaginationSettings = {
 		offset: 0,
@@ -53,7 +40,11 @@
 					{#each users as user, i}
 						<tr>
 							<td>{user.name}</td>
-							<td><span class="badge variant-filled">{user.role}</span></td>
+							<td>
+								{#each user.roles as role}
+									<span class="badge variant-filled">{role}</span>
+								{/each}
+							</td>
 							<td>
 								<button type="button" class="bg-initial btn-icon">
 									<Icon

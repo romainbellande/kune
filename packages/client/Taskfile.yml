@@ -5,3 +5,18 @@ tasks:
     desc: fill format and lint issues when it is possible
     cmds:
       - pnpm fix:all
+
+  dce:
+    desc: docker-compose exec alias
+    cmds:
+      - docker-compose exec client {{.CLI_ARGS}}
+
+  graphql:gen:
+    desc: generate graphql types
+    cmds:
+      - task dce -- pnpm exec houdini generate -p
+
+  graphql:pull:
+    desc: generate graphql types
+    cmds:
+      - task dce -- pnpm exec houdini pull-schema

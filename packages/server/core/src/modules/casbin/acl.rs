@@ -74,3 +74,11 @@ pub async fn add_user_role(ctx: &Context<'_>, gid: String, role: String) -> Resu
 
     result
 }
+
+pub async fn get_user_roles(ctx: &Context<'_>) -> Result<Vec<String>> {
+    let uid = user::extract_uid(ctx).await?;
+    let gid = group::extract_gid(ctx)?;
+    let enforcer = extract_enforcer(ctx);
+    let result = enforcer.write().await.get_roles_for_user(&uid, Some(&gid));
+    Ok(result)
+}

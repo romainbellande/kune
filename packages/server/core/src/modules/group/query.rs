@@ -1,4 +1,4 @@
-use super::service;
+use super::{extract_gid, service};
 use crate::graphql::types::{group::Group, user::User};
 use crate::modules::auth::guard::AuthGuard;
 use crate::modules::casbin::{Permission, RbacGuard, Resource};
@@ -19,8 +19,9 @@ impl GroupQuery {
     }
 
     #[graphql(guard = "AuthGuard::new().and(RbacGuard::new(Resource::Group, Permission::Read))")]
-    pub async fn find_group_by_id(&self, ctx: &Context<'_>, id: String) -> Result<Group> {
+    pub async fn get_current_group(&self, ctx: &Context<'_>) -> Result<Group> {
         let state = ctx.data::<State>().unwrap();
-        service::find_by_id(&state.db, id).await
+        let gid = extract_gid(ctx)?;
+        service::find_by_id(&state.db, gid).await
     }
 }
