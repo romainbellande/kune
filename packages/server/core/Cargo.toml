@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 # internal
 prisma-cli = { path = "../prisma-cli" }
+from-graphql-data = { path = "../from-graphql-data" }
 
 # external
 serde = { version = "1.0.152", features = ["derive"] }
@@ -30,6 +31,7 @@ reqwest = { version = "0.11.14", features = ["json"]}
 # casbin
 casbin = { version = "2.0.8", default-features = false, features = ["runtime-tokio", "logging", "incremental"] }
 sqlx-adapter = { version = "0.4.2", features = ["postgres"] }
+syn = "2.0.15"
 [dependencies.prisma-client-rust]
 git = "https://github.com/Brendonovich/prisma-client-rust"
 tag = "0.6.4"

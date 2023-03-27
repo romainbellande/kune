@@ -25,5 +25,5 @@ tasks:
   fix:all:
     desc: fill format and lint issues when it is possible
     cmds:
-      - docker-compose exec api task fix:all
-      - docker-compose exec client task fix:all
+      - task: server:fix:all
+      - task: client:fix:all

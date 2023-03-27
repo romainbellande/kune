@@ -2,10 +2,9 @@ use crate::graphql::types::group::{CreateGroupDto, Group};
 use crate::{
     errors::AppError,
     prisma::{group, user, PrismaClient},
-    utils::PaginatedResult,
+    utils::{paginate, PaginatedResult},
 };
 use async_graphql::Result;
-use prisma_client_rust::or;
 
 pub async fn create(
     db: &PrismaClient,
@@ -30,38 +29,11 @@ pub async fn find_all_user_groups(
     page: Option<i64>,
     limit: Option<i64>,
 ) -> Result<PaginatedResult<Group>> {
-    let page = page.unwrap_or(1);
-    let limit = limit.unwrap_or(20);
+    let where_condition = vec![group::users::some(vec![user::id::equals(
+        current_user.id.clone(),
+    )])];
 
-    let num_items = db
-        .group()
-        .count(vec![group::users::some(vec![user::id::equals(
-            current_user.id.clone(),
-        )])])
-        .exec()
-        .await
-        .map_err(|err| AppError::GroupsCountError(err.to_string()).into_graphql_error())?;
-
-    let data = db
-        .group()
-        .find_many(vec![or![group::users::some(vec![user::id::equals(
-            current_user.id
-        )]),]])
-        .skip(page * limit)
-        .take(limit)
-        .exec()
-        .await
-        .map_err(|err| AppError::GroupsFindError(err.to_string()).into_graphql_error())?;
-
-    let paginated_result = PaginatedResult::<Group> {
-        data: data.clone().into_iter().map(|item| item.into()).collect(),
-        num_items,
-        num_pages: (num_items as f32 / limit as f32).ceil() as i64,
-        page,
-        page_items: data.len() as i64,
-    };
-
-    Ok(paginated_result)
+    paginate!(Group, db.group(), where_condition, page, limit).await
 }
 
 pub async fn find_by_id(db: &PrismaClient, id: String) -> Result<Group> {

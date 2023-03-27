@@ -32,12 +32,12 @@ tasks:
   lint:fix:
     desc: lint server and fix if possible
     cmds:
-      - cargo clippy --fix --allow-dirty --all --allow-no-vcs
+      - docker-compose exec api cargo clippy --fix --allow-dirty --all --allow-no-vcs
 
   format:
     desc: format
     cmds:
-      - cargo fmt --all
+      - docker-compose exec api cargo fmt --all
 
   fix:all:
     desc: fill format and lint issues when it is possible

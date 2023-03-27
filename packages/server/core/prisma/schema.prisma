@@ -13,16 +13,46 @@ generator client {
 model User {
     id          String  @id @default(cuid())
     name        String
-    external_id String @unique
+    external_id String  @unique
     groups Group[]
 }
 
 model Group {
     id          String  @id @default(cuid())
     name        String
-    slug        String @unique
+    slug        String  @unique
     private     Boolean
     users       User[]
+    referendums Referendum[]
+}
+
+model Referendum {
+    id                String      @id @default(cuid())
+    group             Group       @relation(fields: [groupId], references: [id])
+    groupId           String
+    name              String
+    slug              String
+    question          String
+    answers           String[]
+    participants      Participants @default(All)
+    participantNames  String[]
+    participantRoles  String[]
+    description       String
+    status            Status      @default(Planned)
+    startDate         DateTime    @default(now())
+    endDate           DateTime
+}
+
+enum Participants {
+    All
+    ByName
+    ByRole
+}
+
+enum Status {
+    Planned
+    InProgress
+    Closed
 }
 
 model CasbinRule {
