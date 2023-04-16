@@ -39,7 +39,7 @@ services:
       dockerfile: ./docker/client/Dockerfile
     user: "${UID}:${GID}"
     working_dir: /home/node
-    command: ./wait-for-it.sh api:80 -t 240 -s -- npm run dev
+    command: ./wait-for-it.sh api:80 -t 240 -s -- pnpm dev
     restart: unless-stopped
     environment:
       PUBLIC_AUTH0_DOMAIN: $PUBLIC_AUTH0_DOMAIN

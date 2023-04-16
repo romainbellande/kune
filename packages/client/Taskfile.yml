@@ -4,7 +4,7 @@ tasks:
   fix:all:
     desc: fill format and lint issues when it is possible
     cmds:
-      - pnpm fix:all
+      - task dce -- pnpm fix:all
 
   dce:
     desc: docker-compose exec alias

@@ -1,5 +1,5 @@
 mod pagination;
-pub use pagination::PaginatedResult;
+pub(crate) use pagination::{paginate, PaginatedResult};
 
 mod enum_string;
 pub(crate) use enum_string::enum_string;

@@ -66,6 +66,9 @@ pub enum AppError {
 
     #[error("an error occured during acl enforcer attempt: {0}")]
     AclEnforceError(String),
+
+    #[error("a database error occured: {0}")]
+    DbError(String),
 }
 
 impl AppError {
@@ -89,6 +92,7 @@ impl AppError {
             Self::AclEnforceError(_) => "ACL_ENFORCE_ERROR",
             Self::GroupFindError(_) => "GROUP_FIND_ERROR",
             Self::GroupNotFound(_) => "GROUP_NOT_FOUND",
+            Self::DbError(_) => "DB_ERROR",
         };
 
         str.to_string()

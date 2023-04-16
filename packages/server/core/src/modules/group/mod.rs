@@ -5,5 +5,6 @@ mod query;
 pub use query::GroupQuery;
 
 mod extractor;
-mod service;
 pub use extractor::{extract_gid, GroupExtractor};
+
+pub mod service;
