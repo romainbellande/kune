@@ -1,5 +1,21 @@
 use crate::prisma::{self, referendum};
-use async_graphql::{ComplexObject, Enum, SimpleObject};
+use async_graphql::{ComplexObject, Enum, InputObject, SimpleObject};
+
+#[derive(InputObject, Clone)]
+pub struct CreateReferendumDto {
+    pub group_id: String,
+    pub name: String,
+    pub slug: String,
+    pub question: String,
+    pub answers: Vec<String>,
+    pub participants: Participants,
+    pub participant_names: Vec<String>,
+    pub participant_roles: Vec<String>,
+    pub description: Option<String>,
+    pub status: Status,
+    pub start_date: Option<String>,
+    pub end_date: String,
+}
 
 #[derive(SimpleObject)]
 #[graphql(complex)]
@@ -13,7 +29,7 @@ pub struct Referendum {
     pub participants: Participants,
     pub participant_names: Vec<String>,
     pub participant_roles: Vec<String>,
-    pub description: String,
+    pub description: Option<String>,
     pub status: Status,
     pub start_date: String,
     pub end_date: String,
@@ -27,6 +43,16 @@ pub enum Participants {
     All,
     ByName,
     ByRole,
+}
+
+impl From<Participants> for prisma::Participants {
+    fn from(val: Participants) -> Self {
+        match val {
+            Participants::All => prisma::Participants::All,
+            Participants::ByName => prisma::Participants::ByName,
+            Participants::ByRole => prisma::Participants::ByRole,
+        }
+    }
 }
 
 impl From<prisma::Participants> for Participants {

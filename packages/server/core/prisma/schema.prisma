@@ -34,10 +34,10 @@ model Referendum {
     slug              String
     question          String
     answers           String[]
-    participants      Participants @default(All)
+    participants      Participants
     participantNames  String[]
     participantRoles  String[]
-    description       String
+    description       String?
     status            Status      @default(Planned)
     startDate         DateTime    @default(now())
     endDate           DateTime

@@ -15,8 +15,7 @@ members = [
   "./entity",
   "./core",
   "./migration",
-  "./prisma-cli",
-  "./from-graphql-data"
+  "./prisma-cli"
 ]
 
 default-members = ["./"]

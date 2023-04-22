@@ -69,6 +69,9 @@ pub enum AppError {
 
     #[error("a database error occured: {0}")]
     DbError(String),
+
+    #[error("invalid date: {0}")]
+    InvalidDate(String),
 }
 
 impl AppError {
@@ -93,6 +96,7 @@ impl AppError {
             Self::GroupFindError(_) => "GROUP_FIND_ERROR",
             Self::GroupNotFound(_) => "GROUP_NOT_FOUND",
             Self::DbError(_) => "DB_ERROR",
+            Self::InvalidDate(_) => "INVALID_DATE",
         };
 
         str.to_string()

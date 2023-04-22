@@ -9,6 +9,21 @@ input CreateGroupDto {
   slug: String!
 }
 
+input CreateReferendumDto {
+  answers: [String!]!
+  description: String
+  endDate: String!
+  groupId: String!
+  name: String!
+  participantNames: [String!]!
+  participantRoles: [String!]!
+  participants: Participants!
+  question: String!
+  slug: String!
+  startDate: String
+  status: Status!
+}
+
 input CreateUserDto {
   externalId: String!
   name: String!
@@ -24,15 +39,53 @@ type Group {
 
 type MutationRoot {
   createGroup(dto: CreateGroupDto!): Group!
+  createReferendum(dto: CreateReferendumDto!): Referendum!
   createUser(dto: CreateUserDto!): User!
   createUserIfNotExists(dto: CreateUserDto!): User!
 }
 
+type PaginatedResult {
+  data: [Referendum!]!
+  numItems: Int!
+  numPages: Int!
+  page: Int!
+  pageItems: Int!
+}
+
+enum Participants {
+  ALL
+  BY_NAME
+  BY_ROLE
+}
+
 type QueryRoot {
+  findReferendums(limit: Int, page: Int): PaginatedResult!
   findUserGroups: [Group!]!
   getCurrentGroup: Group!
   getCurrentUser: User!
   getUserByExternalId(externalId: String!): User!
+}
+
+type Referendum {
+  answers: [String!]!
+  description: String
+  endDate: String!
+  groupId: String!
+  id: String!
+  name: String!
+  participantNames: [String!]!
+  participantRoles: [String!]!
+  participants: Participants!
+  question: String!
+  slug: String!
+  startDate: String!
+  status: Status!
+}
+
+enum Status {
+  CLOSED
+  IN_PROGRESS
+  PLANNED
 }
 
 type User {
