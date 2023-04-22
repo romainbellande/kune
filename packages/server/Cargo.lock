@@ -934,7 +934,6 @@ dependencies = [
  "axum-macros",
  "casbin",
  "chrono",
- "from-graphql-data",
  "http",
  "http-body",
  "jsonwebtoken",
@@ -1468,14 +1467,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a9c384f161156f5260c24a097c56119f9be8c798586aecc13afbcbe7b7e26bf8"
 dependencies = [
  "percent-encoding",
-]
-
-[[package]]
-name = "from-graphql-data"
-version = "0.1.0"
-dependencies = [
- "quote",
- "syn 2.0.15",
 ]
 
 [[package]]

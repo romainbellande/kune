@@ -2,16 +2,17 @@ use crate::{
     modules::{
         group::{GroupMutation, GroupQuery},
         user::{UserMutation, UserQuery},
+        referendum::{ReferendumMutation, ReferendumQuery},
     },
     State,
 };
 use async_graphql::{EmptySubscription, MergedObject, Schema};
 
 #[derive(MergedObject, Default)]
-pub struct QueryRoot(UserQuery, GroupQuery);
+pub struct QueryRoot(UserQuery, GroupQuery, ReferendumQuery);
 
 #[derive(MergedObject, Default)]
-pub struct MutationRoot(UserMutation, GroupMutation);
+pub struct MutationRoot(UserMutation, GroupMutation, ReferendumMutation);
 
 pub type AppSchema = Schema<QueryRoot, MutationRoot, EmptySubscription>;
 

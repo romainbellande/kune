@@ -8,7 +8,6 @@ edition = "2021"
 [dependencies]
 # internal
 prisma-cli = { path = "../prisma-cli" }
-from-graphql-data = { path = "../from-graphql-data" }
 
 # external
 serde = { version = "1.0.152", features = ["derive"] }
