@@ -1,0 +1,16 @@
+mutation CreateReferendum($dto: CreateReferendumDto!) {
+  createReferendum(dto: $dto) {
+    id,
+    name,
+    slug,
+    question,
+    answers,
+    participants,
+    participantNames,
+    participantRoles,
+    description,
+    status,
+    startDate,
+    endDate
+  }
+}
